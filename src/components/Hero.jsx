@@ -66,9 +66,9 @@ const Hero = () => {
         <div class="hero-visual scroll-anim scroll-anim-scale-in active">
           <div class="floating-card-wrapper">
             <div class="glass-card visual-card main-visual-card">
-              <img src="/assets/nextlix-logo-hexagon.jpg" alt="Nextlix Logo Symbol" class="floating-logo" />
+              <img src="/assets/nextlix-logo-chevron.jpg" alt="Nextlix Logo Symbol" class="floating-logo" />
               <div class="visual-card-bg-glow"></div>
-            </div>
+            </div>``
             
             <div class="glass-card floating-subcard subcard-1">
               <div class="subcard-icon"><i class="fa-solid fa-code"></i></div>
@@ -81,7 +81,7 @@ const Hero = () => {
             <div class="glass-card floating-subcard subcard-2">
               <div class="subcard-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
               <div class="subcard-info">
-                <span class="subcard-title">iOS & Android</span>
+                <span class="subcard-title">Android</span>
                 <span class="subcard-desc">Native Speed</span>
               </div>
             </div>

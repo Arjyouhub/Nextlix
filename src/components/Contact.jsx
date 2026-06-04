@@ -90,9 +90,9 @@ const Contact = ({ estimateSummary, projectCategory, onClearEstimate, onSubmitSu
             <div class="glass-card contact-info-card">
               <div class="info-icon"><i class="fa-solid fa-phone-volume"></i></div>
               <div class="info-text">
-                <span class="info-label">Call our team</span>
-                <a href="tel:+18005550199" class="info-link">+1 (800) 555-0199</a>
-              </div>
+  <span class="info-label">Call our team</span>
+  <a href="tel:+918921382414" class="info-link">+91 89213 82414</a>
+</div>
             </div>
             
             <div class="glass-card contact-info-card">
@@ -101,7 +101,7 @@ const Contact = ({ estimateSummary, projectCategory, onClearEstimate, onSubmitSu
               </div>
               <div class="info-text">
                 <span class="info-label">WhatsApp Chat</span>
-                <a href="https://wa.me/18005550199" target="_blank" rel="noopener noreferrer" class="info-link">Chat with dev team</a>
+                <a href="https://wa.me/918921382414" target="_blank" rel="noopener noreferrer" class="info-link">Chat with dev team</a>
               </div>
             </div>
             

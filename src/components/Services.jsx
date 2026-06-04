@@ -56,9 +56,9 @@ const Services = () => {
               <i class="fa-solid fa-mobile-screen-button"></i>
             </div>
             <h3 class="service-title">Mobile App Dev</h3>
-            <p class="service-text">Fully native iOS and Android apps engineered exclusively using React Native. Seamless cross-platform experiences with zero lag.</p>
+            <p class="service-text">Fully native Android apps engineered exclusively using React Native. Seamless cross-platform experiences with zero lag.</p>
             <ul class="service-bullets">
-              <li><i class="fa-regular fa-circle-check"></i> App Store Deployment</li>
+              <li><i class="fa-regular fa-circle-check"></i> Google Play Deployment</li>
               <li><i class="fa-regular fa-circle-check"></i> Real-time Push & GPS</li>
               <li><i class="fa-regular fa-circle-check"></i> Offline Support</li>
             </ul>
