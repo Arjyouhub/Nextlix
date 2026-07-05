@@ -2064,6 +2064,14 @@ body.light-theme .sun-icon { display: block; }
 }
 
 /* Responsive adjustments for Admin Panel */
+.admin-panel-container,
+.admin-panel-container .estimator-grid,
+.admin-panel-container .glass-card {
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
 .admin-panel-container .glass-card {
   overflow-x: auto !important;
 }
