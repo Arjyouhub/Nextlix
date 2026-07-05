@@ -262,7 +262,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
               </div>
 
               <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '15px' }}>Daily Traffic History</h4>
-              <div class="glass-card" style={{ padding: '0', overflow: 'hidden' }}>
+              <div class="glass-card" style={{ padding: '0', overflow: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
@@ -394,7 +394,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
 
               {/* Projects List */}
               <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '15px' }}>Current Showcase List</h4>
-              <div class="glass-card" style={{ padding: '0', overflow: 'hidden' }}>
+              <div class="glass-card" style={{ padding: '0', overflow: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
@@ -497,7 +497,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
 
               {/* Reviews List */}
               <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '15px' }}>Submitted Reviews Moderation</h4>
-              <div class="glass-card" style={{ padding: '0', overflow: 'hidden' }}>
+              <div class="glass-card" style={{ padding: '0', overflow: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
