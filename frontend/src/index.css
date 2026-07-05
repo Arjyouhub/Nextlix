@@ -2062,3 +2062,66 @@ body.light-theme .sun-icon { display: block; }
     transform: translateY(0);
   }
 }
+
+/* Responsive adjustments for Admin Panel */
+.admin-panel-container .glass-card {
+  overflow-x: auto !important;
+}
+
+@media (max-width: 992px) {
+  .admin-panel-container .estimator-grid {
+    display: flex;
+    flex-direction: column !important; /* Keep controls tab panel at the top */
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-panel-container .glass-card {
+    padding: 20px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-panel-container .section-header {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .admin-panel-container .section-header div:first-child {
+    text-align: center !important;
+  }
+  
+  .admin-panel-container .section-header div:last-child {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .admin-panel-container .section-header .btn {
+    flex: 1;
+    justify-content: center;
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+
+  .admin-panel-container .about-stats {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .admin-panel-container .stat-card {
+    padding: 24px 16px;
+  }
+
+  .admin-panel-container .stat-number {
+    font-size: 2.2rem;
+  }
+  
+  .login-card {
+    padding: 24px !important;
+  }
+}
+
