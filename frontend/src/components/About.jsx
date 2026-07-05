@@ -79,7 +79,7 @@ const About = () => {
         
         <div class="about-stats">
           <StatCard target={50} suffix="+" label="Projects Completed" glowClass="glow-cyan" />
-          <StatCard target={98} suffix="%" label="Client Satisfaction" glowClass="glow-purple" />
+          <StatCard target={8} suffix="+" label="Years of Experience" glowClass="glow-purple" />
           <StatCard target={15} suffix="+" label="Tech Architects" glowClass="glow-cyan" />
           <StatCard target={4} suffix="M+" label="Lines of Code" glowClass="glow-purple" />
         </div>

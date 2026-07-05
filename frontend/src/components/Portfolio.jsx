@@ -1,46 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getProjects } from '../api';
 
 const Portfolio = () => {
   const [filter, setFilter] = useState('all');
+  const [projects, setProjects] = useState([]);
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Apex FinTech Dashboard',
-      category: 'web',
-      tech: 'React • Next.js • Tailwind',
-      desc: 'High-performance trading dashboard boasting real-time SVG charting and serverless transaction API pipes.',
-      icon: 'fa-chart-line',
-      gradient: 'bg-gradient-cyan'
-    },
-    {
-      id: 2,
-      title: 'Novus Delivery & GPS',
-      category: 'mobile',
-      tech: 'React Native • Node.js • Maps',
-      desc: 'Cross-platform logistics and courier tracking client with background tracking and geofencing.',
-      icon: 'fa-truck-fast',
-      gradient: 'bg-gradient-purple'
-    },
-    {
-      id: 3,
-      title: 'Volt E-Commerce & 3D',
-      category: 'web',
-      tech: 'SvelteKit • Node.js • WebGL',
-      desc: 'Next-gen apparel boutique featuring custom 3D model customizers and localized currency workflows.',
-      icon: 'fa-bag-shopping',
-      gradient: 'bg-gradient-pink'
-    },
-    {
-      id: 4,
-      title: 'Zenith Telehealth Client',
-      category: 'mobile',
-      tech: 'React Native • Firebase • WebRTC',
-      desc: 'HIPAA-compliant telemedicine app allowing secure peer-to-peer audio-video consultation rooms.',
-      icon: 'fa-house-chimney-medical',
-      gradient: 'bg-gradient-blue'
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const data = await getProjects();
+      setProjects(data);
+    } catch (e) {
+      console.error('Error fetching portfolio projects:', e);
     }
-  ];
+  };
 
   const filteredProjects = filter === 'all' 
     ? projects 
@@ -87,7 +63,14 @@ const Portfolio = () => {
                     <span class="project-tech">{project.tech}</span>
                     <h4 class="project-card-title">{project.title}</h4>
                     <p class="project-card-desc">{project.desc}</p>
-                    <a href="#contact" class="btn btn-secondary btn-sm">Explore Project</a>
+                    <a 
+                      href={project.url || "#contact"} 
+                      target={project.url ? "_blank" : "_self"} 
+                      rel={project.url ? "noopener noreferrer" : ""} 
+                      class="btn btn-secondary btn-sm"
+                    >
+                      {project.url ? "Visit Website" : "Explore Project"}
+                    </a>
                   </div>
                 </div>
                 <div class={`project-placeholder ${project.gradient}`}>

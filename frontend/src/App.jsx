@@ -5,14 +5,49 @@ import Hero from './components/Hero';
 import Services from './components/Services';
 import Estimator from './components/Estimator';
 import Portfolio from './components/Portfolio';
+import Testimonials from './components/Testimonials';
 import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import AdminPanel from './components/AdminPanel';
+import AdminLogin from './components/AdminLogin';
+import { trackPageView } from './api';
 
 function App() {
   // Theme state: dark / light
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAdminView, setIsAdminView] = useState(() => window.location.pathname === '/admin');
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => sessionStorage.getItem('isAdminAuthenticated') === 'true');
+
+  // Page tracking and navigation
+  useEffect(() => {
+    trackPageView().catch(e => console.warn('Analytics error:', e));
+
+    const handlePopState = () => {
+      setIsAdminView(window.location.pathname === '/admin');
+      setIsAdminAuthenticated(sessionStorage.getItem('isAdminAuthenticated') === 'true');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path) => {
+    window.history.pushState({}, '', path);
+    setIsAdminView(path === '/admin');
+    setIsAdminAuthenticated(sessionStorage.getItem('isAdminAuthenticated') === 'true');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleLoginSuccess = () => {
+    setIsAdminAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('isAdminAuthenticated');
+    setIsAdminAuthenticated(false);
+    navigateTo('/');
+  };
 
   // Estimator data hook states
   const [estimateSummary, setEstimateSummary] = useState('');
@@ -86,7 +121,7 @@ function App() {
         el.removeEventListener('mouseleave', handleMouseLeave);
       });
     };
-  }, [showModal, estimateSummary]);
+  }, [showModal, estimateSummary, isAdminView, isAdminAuthenticated]);
 
   // Event callbacks: estimator passes variables to contact form
   const handleApplyEstimate = (summary, category) => {
@@ -115,45 +150,60 @@ function App() {
   return (
     <>
       {/* Custom Glowing Cursor */}
-      <div 
-        id="customCursor" 
-        class="custom-cursor" 
-        style={{ left: `${dotPos.x}px`, top: `${dotPos.y}px` }}
-      ></div>
-      <div 
-        id="customCursorGlow" 
-        class="custom-cursor-glow" 
-        style={{ left: `${glowPos.x}px`, top: `${glowPos.y}px` }}
-      ></div>
+      {!isAdminView && (
+        <>
+          <div 
+            id="customCursor" 
+            class="custom-cursor" 
+            style={{ left: `${dotPos.x}px`, top: `${dotPos.y}px` }}
+          ></div>
+          <div 
+            id="customCursorGlow" 
+            class="custom-cursor-glow" 
+            style={{ left: `${glowPos.x}px`, top: `${glowPos.y}px` }}
+          ></div>
+        </>
+      )}
 
       {/* Particle Canvas background */}
       <CanvasParticles theme={theme} />
 
-      {/* Navigation Header */}
-      <Header 
-        theme={theme} 
-        setTheme={setTheme} 
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-      />
+      {isAdminView ? (
+        isAdminAuthenticated ? (
+          <AdminPanel onClose={() => navigateTo('/')} onLogout={handleLogout} />
+        ) : (
+          <AdminLogin onLoginSuccess={handleLoginSuccess} onBackToHome={() => navigateTo('/')} />
+        )
+      ) : (
+        <>
+          {/* Navigation Header */}
+          <Header 
+            theme={theme} 
+            setTheme={setTheme} 
+            mobileMenuOpen={mobileMenuOpen}
+            setMobileMenuOpen={setMobileMenuOpen}
+          />
 
-      <main onClick={() => setMobileMenuOpen(false)}>
-        {/* Sections composition */}
-        <Hero />
-        <Services />
-        <Estimator onApplyEstimate={handleApplyEstimate} />
-        <Portfolio />
-        <About />
-        <Contact 
-          estimateSummary={estimateSummary}
-          projectCategory={projectCategory}
-          onClearEstimate={() => setEstimateSummary('')}
-          onSubmitSuccess={handleFormSubmitSuccess}
-        />
-      </main>
+          <main onClick={() => setMobileMenuOpen(false)}>
+            {/* Sections composition */}
+            <Hero />
+            <Services />
+            <Estimator onApplyEstimate={handleApplyEstimate} />
+            <Portfolio />
+            <Testimonials />
+            <About />
+            <Contact 
+              estimateSummary={estimateSummary}
+              projectCategory={projectCategory}
+              onClearEstimate={() => setEstimateSummary('')}
+              onSubmitSuccess={handleFormSubmitSuccess}
+            />
+          </main>
 
-      {/* Footer */}
-      <Footer />
+          {/* Footer */}
+          <Footer />
+        </>
+      )}
 
       {/* Success Modal PopupRecap */}
       <div class={`success-modal-overlay ${showModal ? 'active' : ''}`} id="successModal">
