@@ -167,7 +167,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
       <div class="section-header" style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '100%' }}>
         <div style={{ textAlign: 'left' }}>
           <span class="section-tag">Nextlix Backend Console</span>
-          <h2 class="section-title" style={{ margin: 0 }}>Startup <span class="gradient-text">Admin Panel</span></h2>
+          <h2 class="section-title" style={{ margin: 0 }}><span class="gradient-text">Admin Panel</span></h2>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
           <button class="btn btn-secondary" onClick={onClose}>
