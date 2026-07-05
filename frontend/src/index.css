@@ -2083,28 +2083,34 @@ body.light-theme .sun-icon { display: block; }
 }
 
 @media (max-width: 576px) {
+  .admin-panel-container .section-tag {
+    display: none !important;
+  }
+
+  .admin-panel-container .admin-btn-text {
+    display: none !important;
+  }
+
   .admin-panel-container .section-header {
-    flex-direction: column;
-    align-items: stretch !important;
-    gap: 20px;
-    text-align: center;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px;
   }
   
   .admin-panel-container .section-header div:first-child {
-    text-align: center !important;
+    text-align: left !important;
   }
   
   .admin-panel-container .section-header div:last-child {
     display: flex;
-    gap: 10px;
-    width: 100%;
+    gap: 8px;
+    width: auto !important;
   }
   
   .admin-panel-container .section-header .btn {
-    flex: 1;
-    justify-content: center;
-    padding: 12px;
-    font-size: 0.85rem;
+    padding: 10px 14px !important;
+    font-size: 0.9rem !important;
   }
 
   .admin-panel-container .about-stats {

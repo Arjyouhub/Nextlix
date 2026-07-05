@@ -171,10 +171,10 @@ const AdminPanel = ({ onClose, onLogout }) => {
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
           <button class="btn btn-secondary" onClick={onClose}>
-            <i class="fa-solid fa-house"></i> Exit Dashboard
+            <i class="fa-solid fa-house"></i> <span class="admin-btn-text">Exit Dashboard</span>
           </button>
           <button class="btn btn-secondary" onClick={onLogout} style={{ color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
-            <i class="fa-solid fa-power-off"></i> Logout
+            <i class="fa-solid fa-power-off"></i> <span class="admin-btn-text">Logout</span>
           </button>
         </div>
       </div>
