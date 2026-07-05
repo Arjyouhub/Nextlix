@@ -1,6 +1,6 @@
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? '/api'
-  : import.meta.env.VITE_API_URL || 'https://nextlix.onrender.com/api';
+  : 'https://nextlix.onrender.com/api';
 
 // ---------------- PROJECTS ----------------
 export async function getProjects() {
