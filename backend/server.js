@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
@@ -26,63 +27,38 @@ if (!fs.existsSync(DB_DIR)) {
 }
 
 // ---------------- SEED DATA DEFINITIONS ----------------
-const defaultSeedData = {
-  projects: [
-    {
-      id: 1,
-      title: 'Loria Trading',
-      category: 'web',
-      tech: 'HTML5 • CSS3 • JavaScript',
-      desc: 'Premium design, fabrication, and custom showcase platform for luxury hospitality tableware and heritage items.',
-      icon: 'fa-hotel',
-      gradient: 'bg-gradient-amber',
-      url: 'https://loriauae.com/'
-    },
-    {
-      id: 2,
-      title: 'Netrave Store',
-      category: 'web',
-      tech: 'React • Tailwind CSS • Vite',
-      desc: 'Premium men\'s e-commerce fashion storefront featuring curated summer collections, quick WhatsApp order integration, and premium user experience.',
-      icon: 'fa-bag-shopping',
-      gradient: 'bg-gradient-purple',
-      url: 'https://netravefashion.vercel.app/'
+const SEED_FILE = path.join(DB_DIR, 'seed.json');
+
+function getSeedData() {
+  try {
+    if (fs.existsSync(SEED_FILE)) {
+      const raw = fs.readFileSync(SEED_FILE, 'utf8');
+      return JSON.parse(raw);
     }
-  ],
-  reviews: [
-    {
-      id: 1,
-      name: 'Sarah Jenkins',
-      company: 'Apex FinTech Group',
-      rating: 5,
-      comment: 'Nextlix delivered our trading dashboard on time and with incredible responsiveness. The animations are smooth and code quality is outstanding.',
-      date: '2026-06-15',
-      approved: true
-    },
-    {
-      id: 2,
-      name: 'Loria Representative',
-      company: 'Loria Trading',
-      rating: 5,
-      comment: 'Highly professional team. They translated our heritage catalog into an elegant digital showcase that commands attention.',
-      date: '2026-07-02',
-      approved: true
-    }
-  ],
-  analytics: {
-    totalViews: 128,
-    dailyViews: [
-      { date: '2026-07-01', count: 18 },
-      { date: '2026-07-02', count: 24 },
-      { date: '2026-07-03', count: 32 },
-      { date: '2026-07-04', count: 54 }
-    ]
-  },
-  admin: {
-    username: 'admin',
-    password: 'adminpassword'
+  } catch (error) {
+    console.error('Error reading seed.json:', error);
   }
-};
+  return {
+    projects: [],
+    reviews: [],
+    analytics: {
+      totalViews: 128,
+      dailyViews: [
+        { date: '2026-07-01', count: 18 },
+        { date: '2026-07-02', count: 24 },
+        { date: '2026-07-03', count: 32 },
+        { date: '2026-07-04', count: 54 }
+      ]
+    },
+    admin: {
+      username: 'admin',
+      password: 'adminpassword'
+    }
+  };
+}
+
+const defaultSeedData = getSeedData();
+
 
 // ---------------- MONGOOSE SCHEMAS & MODELS ----------------
 const ProjectSchema = new mongoose.Schema({
@@ -433,8 +409,8 @@ app.post('/api/admin/login', async (req, res) => {
 
   if (isMongoConnected) {
     try {
-      const admin = await Admin.findOne({ username, password });
-      if (admin) {
+      const admin = await Admin.findOne({ username });
+      if (admin && await bcrypt.compare(password, admin.password)) {
         return res.json({ success: true, message: 'Logged in successfully' });
       }
     } catch (e) {
@@ -443,7 +419,7 @@ app.post('/api/admin/login', async (req, res) => {
   }
 
   const db = readDb();
-  if (db.admin && db.admin.username === username && db.admin.password === password) {
+  if (db.admin && db.admin.username === username && await bcrypt.compare(password, db.admin.password)) {
     return res.json({ success: true, message: 'Logged in successfully' });
   }
 
@@ -456,26 +432,33 @@ app.put('/api/admin/settings', async (req, res) => {
     return res.status(400).json({ success: false, message: 'Username and password are required' });
   }
 
-  if (isMongoConnected) {
-    try {
-      let admin = await Admin.findOne();
-      if (!admin) {
-        admin = new Admin({ username, password });
-      } else {
-        admin.username = username;
-        admin.password = password;
-      }
-      await admin.save();
-      return res.json({ success: true, message: 'Admin credentials updated successfully in Atlas' });
-    } catch (e) {
-      console.error('Mongo admin settings update failed, falling back:', e);
-    }
-  }
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  const db = readDb();
-  db.admin = { username, password };
-  writeDb(db);
-  res.json({ success: true, message: 'Admin credentials updated successfully in JSON DB' });
+    if (isMongoConnected) {
+      try {
+        let admin = await Admin.findOne();
+        if (!admin) {
+          admin = new Admin({ username, password: hashedPassword });
+        } else {
+          admin.username = username;
+          admin.password = hashedPassword;
+        }
+        await admin.save();
+        return res.json({ success: true, message: 'Admin credentials updated successfully in Atlas' });
+      } catch (e) {
+        console.error('Mongo admin settings update failed, falling back:', e);
+      }
+    }
+
+    const db = readDb();
+    db.admin = { username, password: hashedPassword };
+    writeDb(db);
+    res.json({ success: true, message: 'Admin credentials updated successfully in JSON DB' });
+  } catch (error) {
+    console.error('Error hashing updated credentials:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
 });
 
 app.listen(PORT, () => {

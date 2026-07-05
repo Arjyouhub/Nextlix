@@ -68,7 +68,7 @@ const Hero = () => {
             <div class="glass-card visual-card main-visual-card">
               <img src="/assets/nextlix-logo-chevron.jpg" alt="Nextlix Logo Symbol" class="floating-logo" />
               <div class="visual-card-bg-glow"></div>
-            </div>``
+            </div>
             
             <div class="glass-card floating-subcard subcard-1">
               <div class="subcard-icon"><i class="fa-solid fa-code"></i></div>

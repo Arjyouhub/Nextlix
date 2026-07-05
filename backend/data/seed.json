@@ -1,0 +1,57 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Loria Trading",
+      "category": "web",
+      "tech": "HTML5 • CSS3 • JavaScript",
+      "desc": "Premium design, fabrication, and custom showcase platform for luxury hospitality tableware and heritage items.",
+      "icon": "fa-hotel",
+      "gradient": "bg-gradient-amber",
+      "url": "https://loriauae.com/"
+    },
+    {
+      "id": 2,
+      "title": "Netrave Store",
+      "category": "web",
+      "tech": "React • Tailwind CSS • Vite",
+      "desc": "Premium men's e-commerce fashion storefront featuring curated summer collections, quick WhatsApp order integration, and premium user experience.",
+      "icon": "fa-bag-shopping",
+      "gradient": "bg-gradient-purple",
+      "url": "https://netravefashion.vercel.app/"
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "name": "Sarah Jenkins",
+      "company": "Apex FinTech Group",
+      "rating": 5,
+      "comment": "Nextlix delivered our trading dashboard on time and with incredible responsiveness. The animations are smooth and code quality is outstanding.",
+      "date": "2026-06-15",
+      "approved": true
+    },
+    {
+      "id": 2,
+      "name": "Loria Representative",
+      "company": "Loria Trading",
+      "rating": 5,
+      "comment": "Highly professional team. They translated our heritage catalog into an elegant digital showcase that commands attention.",
+      "date": "2026-07-02",
+      "approved": true
+    }
+  ],
+  "analytics": {
+    "totalViews": 128,
+    "dailyViews": [
+      { "date": "2026-07-01", "count": 18 },
+      { "date": "2026-07-02", "count": 24 },
+      { "date": "2026-07-03", "count": 32 },
+      { "date": "2026-07-04", "count": 54 }
+    ]
+  },
+  "admin": {
+    "username": "admin",
+    "password": "$2b$10$B2DSZHmc5ZAhtiRSwBmk6uGWLcHQvGOsQ7.xL4FH772Pf8NihZu7m"
+  }
+}
