@@ -2109,6 +2109,17 @@ body.light-theme .sun-icon { display: block; }
   display: block;
 }
 
+.admin-panel-container .about-stats {
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 20px;
+}
+
+@media (max-width: 1200px) {
+  .admin-panel-container .about-stats {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
 @media (max-width: 992px) {
   .admin-panel-container .estimator-grid {
     display: flex;
@@ -2142,8 +2153,6 @@ body.light-theme .sun-icon { display: block; }
   .admin-content-card {
     padding: 20px !important;
   }
-
-
 }
 
 @media (max-width: 576px) {
@@ -2155,10 +2164,34 @@ body.light-theme .sun-icon { display: block; }
     display: none !important;
   }
 
+  .admin-navbar {
+    padding: 0 16px !important;
+    height: 70px !important;
+  }
 
+  .admin-nav-logo {
+    font-size: 1.25rem !important;
+  }
+
+  .admin-exit-btn,
+  .admin-logout-btn {
+    padding: 8px 12px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .btn {
+    padding: 12px 18px !important;
+    font-size: 0.88rem !important;
+  }
+
+  .admin-panel-container table th,
+  .admin-panel-container table td {
+    padding: 10px 12px !important;
+    font-size: 0.82rem !important;
+  }
 
   .admin-panel-container .about-stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     gap: 15px;
   }
   
@@ -2172,6 +2205,21 @@ body.light-theme .sun-icon { display: block; }
   
   .login-card {
     padding: 24px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .admin-navbar {
+    padding: 0 12px !important;
+  }
+  .admin-nav-right {
+    gap: 8px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .admin-console-badge {
+    display: none !important;
   }
 }
 

@@ -105,7 +105,7 @@ const AdminLogin = ({ onLoginSuccess, onBackToHome }) => {
             disabled={loading}
             style={{ marginBottom: '15px' }}
           >
-            {loading ? 'Verifying Console Credentials...' : 'Authenticate Secure Session'}
+            {loading ? 'Authenticating...' : 'Login to Console'}
           </button>
           
           <button 
@@ -114,7 +114,7 @@ const AdminLogin = ({ onLoginSuccess, onBackToHome }) => {
             onClick={onBackToHome}
             disabled={loading}
           >
-            <i class="fa-solid fa-arrow-left-long"></i> Back to Landing Page
+            <i class="fa-solid fa-arrow-left"></i> Back to Website
           </button>
         </form>
       </div>

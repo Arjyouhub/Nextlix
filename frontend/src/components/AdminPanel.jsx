@@ -177,7 +177,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
   };
 
   return (
-    <div class="admin-dashboard-layout" style={{ minHeight: '100vh', position: 'relative', zIndex: 100 }}>
+    <div class="admin-dashboard-layout admin-panel-container" style={{ minHeight: '100vh', position: 'relative', zIndex: 100 }}>
       {/* Sleek Top Navbar */}
       <header class="admin-navbar">
         <div class="admin-nav-left">
@@ -279,20 +279,20 @@ const AdminPanel = ({ onClose, onLogout }) => {
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Date</th>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Page Views / Unique Hits</th>
+                      <th>Date</th>
+                      <th>Page Views / Unique Hits</th>
                     </tr>
                   </thead>
                   <tbody>
                     {(analytics.dailyViews || []).length === 0 ? (
                       <tr>
-                        <td colSpan="2" style={{ padding: '18px', textAlign: 'center', color: 'var(--text-muted)' }}>No traffic recorded yet.</td>
+                        <td colSpan="2" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>No traffic recorded yet.</td>
                       </tr>
                     ) : (
                       [...(analytics.dailyViews || [])].reverse().map((dv, idx) => (
                         <tr key={idx} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                          <td style={{ padding: '12px 18px', color: 'var(--text-secondary)' }}>{dv.date}</td>
-                          <td style={{ padding: '12px 18px', color: 'var(--accent-cyan)', fontWeight: 'bold' }}>{dv.count} views</td>
+                          <td style={{ color: 'var(--text-secondary)' }}>{dv.date}</td>
+                          <td style={{ color: 'var(--accent-cyan)', fontWeight: 'bold' }}>{dv.count} views</td>
                         </tr>
                       ))
                     )}
@@ -428,17 +428,17 @@ const AdminPanel = ({ onClose, onLogout }) => {
                 <table style={{ width: '100%', minWidth: '800px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Title</th>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Category</th>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Tech Stack</th>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>URL</th>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)', textAlign: 'right' }}>Actions</th>
+                      <th>Title</th>
+                      <th>Category</th>
+                      <th>Tech Stack</th>
+                      <th>URL</th>
+                      <th style={{ textAlign: 'right' }}>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {projects.map(proj => (
                       <tr key={proj.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                        <td style={{ padding: '12px 18px', color: 'var(--text-primary)', fontWeight: '600' }}>
+                        <td style={{ color: 'var(--text-primary)', fontWeight: '600' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                             {proj.image ? (
                               <img src={proj.image} alt={proj.title} style={{ width: '40px', height: '40px', borderRadius: '4px', objectFit: 'cover', border: '1px solid var(--border-color)' }} />
@@ -450,14 +450,14 @@ const AdminPanel = ({ onClose, onLogout }) => {
                             <span>{proj.title}</span>
                           </div>
                         </td>
-                        <td style={{ padding: '12px 18px', color: 'var(--text-secondary)' }}>
+                        <td style={{ color: 'var(--text-secondary)' }}>
                           <span class="badge" style={{ margin: 0, padding: '3px 10px', fontSize: '0.75rem' }}>{proj.category === 'web' ? 'Web' : 'Mobile'}</span>
                         </td>
-                        <td style={{ padding: '12px 18px', color: 'var(--text-secondary)' }}>{proj.tech}</td>
-                        <td style={{ padding: '12px 18px', color: 'var(--accent-cyan)' }}>
+                        <td style={{ color: 'var(--text-secondary)' }}>{proj.tech}</td>
+                        <td style={{ color: 'var(--accent-cyan)' }}>
                           {proj.url ? <a href={proj.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-cyan)', textDecoration: 'none' }}>Link <i class="fa-solid fa-up-right-from-square" style={{ fontSize: '0.75rem' }}></i></a> : 'None'}
                         </td>
-                        <td style={{ padding: '12px 18px', textAlign: 'right' }}>
+                        <td style={{ textAlign: 'right' }}>
                           <button class="btn btn-secondary btn-sm" onClick={() => handleDeleteProject(proj.id)} style={{ color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
                             <i class="fa-solid fa-trash-can"></i> Delete
                           </button>
@@ -542,27 +542,27 @@ const AdminPanel = ({ onClose, onLogout }) => {
                 <table style={{ width: '100%', minWidth: '800px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Client</th>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Comment</th>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Rating</th>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Status</th>
-                      <th style={{ padding: '12px 18px', color: 'var(--text-primary)', textAlign: 'right' }}>Actions</th>
+                      <th>Client</th>
+                      <th>Comment</th>
+                      <th>Rating</th>
+                      <th>Status</th>
+                      <th style={{ textAlign: 'right' }}>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {reviews.map(rev => (
                       <tr key={rev.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                        <td style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>
+                        <td style={{ color: 'var(--text-primary)' }}>
                           <strong>{rev.name}</strong>
                           <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{rev.company}</span>
                         </td>
-                        <td style={{ padding: '12px 18px', color: 'var(--text-secondary)', maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <td style={{ color: 'var(--text-secondary)', maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {rev.comment}
                         </td>
-                        <td style={{ padding: '12px 18px', color: '#ffc107', fontWeight: 'bold' }}>
+                        <td style={{ color: '#ffc107', fontWeight: 'bold' }}>
                           {'★'.repeat(rev.rating)}{'☆'.repeat(5 - rev.rating)}
                         </td>
-                        <td style={{ padding: '12px 18px' }}>
+                        <td>
                           <span class="badge" style={{ 
                             margin: 0, 
                             padding: '3px 10px', 
@@ -574,7 +574,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
                             {rev.approved ? 'Approved' : 'Pending'}
                           </span>
                         </td>
-                        <td style={{ padding: '12px 18px', textAlign: 'right' }}>
+                        <td style={{ textAlign: 'right' }}>
                           <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
                             <button class="btn btn-secondary btn-sm" onClick={() => handleToggleApprove(rev.id)}>
                               {rev.approved ? 'Reject' : 'Approve'}
