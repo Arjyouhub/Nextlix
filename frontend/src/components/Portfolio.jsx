@@ -73,9 +73,13 @@ const Portfolio = () => {
                     </a>
                   </div>
                 </div>
-                <div class={`project-placeholder ${project.gradient}`}>
-                  <i class={`fa-solid ${project.icon} placeholder-icon`}></i>
-                </div>
+                {project.image ? (
+                  <img src={project.image} alt={project.title} class="project-actual-image" />
+                ) : (
+                  <div class={`project-placeholder ${project.gradient}`}>
+                    <i class={`fa-solid ${project.icon} placeholder-icon`}></i>
+                  </div>
+                )}
               </div>
               <div class="project-info">
                 <h3 class="project-title">{project.title}</h3>

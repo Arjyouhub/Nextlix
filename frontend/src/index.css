@@ -2257,3 +2257,30 @@ body.light-theme .sun-icon { display: block; }
   }
 }
 
+.admin-exit-btn {
+  padding: 10px 20px !important;
+  font-size: 0.88rem !important;
+  color: var(--text-secondary) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  transition: all 0.3s ease !important;
+}
+
+.admin-exit-btn:hover {
+  color: var(--accent-cyan) !important;
+  border-color: rgba(0, 242, 254, 0.3) !important;
+  background: rgba(0, 242, 254, 0.05) !important;
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+}
+
+.project-actual-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-normal);
+}
+
+.project-card:hover .project-actual-image {
+  transform: scale(1.05);
+}
+

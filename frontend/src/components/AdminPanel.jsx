@@ -16,6 +16,18 @@ const AdminPanel = ({ onClose, onLogout }) => {
   const [projIcon, setProjIcon] = useState('fa-globe');
   const [projGradient, setProjGradient] = useState('bg-gradient-cyan');
   const [projUrl, setProjUrl] = useState('');
+  const [projImage, setProjImage] = useState('');
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProjImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   // Manual Review Form State
   const [revName, setRevName] = useState('');
@@ -64,7 +76,8 @@ const AdminPanel = ({ onClose, onLogout }) => {
       desc: projDesc,
       icon: projIcon,
       gradient: projGradient,
-      url: projUrl
+      url: projUrl,
+      image: projImage
     };
 
     try {
@@ -75,6 +88,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
       setProjTech('');
       setProjDesc('');
       setProjUrl('');
+      setProjImage('');
       fetchData();
     } catch (e) {
       showStatus('Failed to add project');
@@ -170,7 +184,10 @@ const AdminPanel = ({ onClose, onLogout }) => {
           <span class="admin-nav-logo">Nextlix</span>
           <span class="admin-console-badge">Console</span>
         </div>
-        <div class="admin-nav-right">
+        <div class="admin-nav-right" style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <button class="btn btn-secondary admin-exit-btn" onClick={onClose}>
+            <i class="fa-solid fa-house"></i> <span class="admin-btn-text">Exit Dashboard</span>
+          </button>
           <button class="btn btn-secondary admin-logout-btn" onClick={onLogout}>
             <i class="fa-solid fa-power-off"></i> <span class="admin-btn-text">Logout</span>
           </button>
@@ -383,6 +400,23 @@ const AdminPanel = ({ onClose, onLogout }) => {
                   ></textarea>
                 </div>
 
+                <div class="form-group" style={{ marginBottom: '24px' }}>
+                  <label class="form-label">Project Image Upload (Optional - overrides gradient background)</label>
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    class="form-input"
+                    onChange={handleImageChange}
+                    style={{ padding: '10px 14px' }}
+                  />
+                  {projImage && (
+                    <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <img src={projImage} alt="Preview" style={{ width: '80px', height: '50px', objectFit: 'cover', borderRadius: '4px', border: '1px solid var(--border-color)' }} />
+                      <button type="button" class="btn btn-secondary btn-sm" onClick={() => setProjImage('')} style={{ color: '#ef4444', padding: '6px 12px' }}>Remove Image</button>
+                    </div>
+                  )}
+                </div>
+
                 <button type="submit" class="btn btn-primary btn-full-width">
                   <i class="fa-solid fa-plus"></i> Save Project to Portfolio
                 </button>
@@ -404,7 +438,18 @@ const AdminPanel = ({ onClose, onLogout }) => {
                   <tbody>
                     {projects.map(proj => (
                       <tr key={proj.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                        <td style={{ padding: '12px 18px', color: 'var(--text-primary)', fontWeight: '600' }}>{proj.title}</td>
+                        <td style={{ padding: '12px 18px', color: 'var(--text-primary)', fontWeight: '600' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            {proj.image ? (
+                              <img src={proj.image} alt={proj.title} style={{ width: '40px', height: '40px', borderRadius: '4px', objectFit: 'cover', border: '1px solid var(--border-color)' }} />
+                            ) : (
+                              <div style={{ width: '40px', height: '40px', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--border-color)', border: '1px solid var(--border-color)' }}>
+                                <i class="fa-solid fa-image" style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}></i>
+                              </div>
+                            )}
+                            <span>{proj.title}</span>
+                          </div>
+                        </td>
                         <td style={{ padding: '12px 18px', color: 'var(--text-secondary)' }}>
                           <span class="badge" style={{ margin: 0, padding: '3px 10px', fontSize: '0.75rem' }}>{proj.category === 'web' ? 'Web' : 'Mobile'}</span>
                         </td>

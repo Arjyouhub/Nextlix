@@ -69,7 +69,8 @@ const ProjectSchema = new mongoose.Schema({
   desc: String,
   icon: String,
   gradient: String,
-  url: String
+  url: String,
+  image: String
 });
 const Project = mongoose.model('Project', ProjectSchema);
 
@@ -222,7 +223,8 @@ app.post('/api/projects', async (req, res) => {
     desc: req.body.desc || '',
     icon: req.body.icon || 'fa-globe',
     gradient: req.body.gradient || 'bg-gradient-cyan',
-    url: req.body.url || ''
+    url: req.body.url || '',
+    image: req.body.image || ''
   };
 
   if (isMongoConnected) {
