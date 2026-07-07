@@ -164,12 +164,11 @@ const AdminPanel = ({ onClose, onLogout }) => {
 
   return (
     <div class="admin-panel-container container section-padding" style={{ minHeight: '100vh', position: 'relative', zIndex: 100 }}>
-      <div class="section-header" style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '100%' }}>
-        <div style={{ textAlign: 'left' }}>
-          <span class="section-tag">Nextlix Backend Console</span>
-          <h2 class="section-title" style={{ margin: 0 }}><span class="gradient-text">Admin Panel</span></h2>
-        </div>
-        <div style={{ display: 'flex', gap: '12px' }}>
+      <div class="admin-panel-header" style={{ marginBottom: '40px', textAlign: 'center' }}>
+        <span class="section-tag" style={{ display: 'inline-block', textTransform: 'none', fontSize: '0.9rem', letterSpacing: '0.5px' }}>Nextlix Admin Panel</span>
+        <h2 class="section-title" style={{ margin: '10px 0 20px 0' }}><span class="gradient-text">Console Dashboard</span></h2>
+        
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', alignItems: 'center' }}>
           <button class="btn btn-secondary" onClick={onClose}>
             <i class="fa-solid fa-house"></i> <span class="admin-btn-text">Exit Dashboard</span>
           </button>

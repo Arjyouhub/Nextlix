@@ -2143,11 +2143,7 @@ body.light-theme .sun-icon { display: block; }
     padding: 20px !important;
   }
 
-  .admin-panel-container .section-header {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 16px !important;
-  }
+
 }
 
 @media (max-width: 576px) {
@@ -2159,27 +2155,7 @@ body.light-theme .sun-icon { display: block; }
     display: none !important;
   }
 
-  .admin-panel-container .section-header {
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 10px;
-  }
-  
-  .admin-panel-container .section-header div:first-child {
-    text-align: left !important;
-  }
-  
-  .admin-panel-container .section-header div:last-child {
-    display: flex;
-    gap: 8px;
-    width: auto !important;
-  }
-  
-  .admin-panel-container .section-header .btn {
-    padding: 10px 14px !important;
-    font-size: 0.9rem !important;
-  }
+
 
   .admin-panel-container .about-stats {
     grid-template-columns: 1fr;
