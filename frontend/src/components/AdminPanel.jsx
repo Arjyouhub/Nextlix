@@ -391,7 +391,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
               {/* Projects List */}
               <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '15px' }}>Current Showcase List</h4>
               <div class="glass-card table-responsive-wrapper" style={{ padding: '0' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
+                <table style={{ width: '100%', minWidth: '800px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
                       <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Title</th>
@@ -494,7 +494,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
               {/* Reviews List */}
               <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '15px' }}>Submitted Reviews Moderation</h4>
               <div class="glass-card table-responsive-wrapper" style={{ padding: '0' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
+                <table style={{ width: '100%', minWidth: '800px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
                       <th style={{ padding: '12px 18px', color: 'var(--text-primary)' }}>Client</th>

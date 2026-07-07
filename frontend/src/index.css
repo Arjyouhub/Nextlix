@@ -1949,7 +1949,7 @@ body.light-theme .sun-icon { display: block; }
   
   .form-row {
     grid-template-columns: 1fr;
-    gap: 0;
+    gap: 16px;
   }
   
   .contact-grid {
@@ -2073,7 +2073,7 @@ body.light-theme .sun-icon { display: block; }
 }
 
 .admin-panel-container .estimator-grid {
-  grid-template-columns: 280px 1fr !important;
+  grid-template-columns: 310px 1fr !important;
   gap: 30px;
 }
 
