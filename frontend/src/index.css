@@ -2077,6 +2077,12 @@ body.light-theme .sun-icon { display: block; }
   gap: 30px;
 }
 
+.admin-panel-container .section-tag {
+  text-transform: none !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 0.5px !important;
+}
+
 .admin-tabs-container {
   padding: 24px;
   display: flex;
