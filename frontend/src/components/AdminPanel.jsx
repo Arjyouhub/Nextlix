@@ -187,13 +187,12 @@ const AdminPanel = ({ onClose, onLogout }) => {
 
       <div class="estimator-grid">
         {/* Navigation Tabs card */}
-        <div class="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div class="glass-card admin-tabs-container">
           <h3 class="estimator-subtitle" style={{ margin: '0 0 10px 0' }}>Dashboard Controls</h3>
           <button 
             type="button" 
-            class={`platform-btn ${activeTab === 'analytics' ? 'active' : ''}`}
+            class={`platform-btn admin-tab-btn ${activeTab === 'analytics' ? 'active' : ''}`}
             onClick={() => setActiveTab('analytics')}
-            style={{ flexDirection: 'row', width: '100%', justifyContent: 'flex-start', padding: '14px 20px', gap: '15px' }}
           >
             <i class="fa-solid fa-chart-simple"></i>
             <span>Overview & Analytics</span>
@@ -201,9 +200,8 @@ const AdminPanel = ({ onClose, onLogout }) => {
           
           <button 
             type="button" 
-            class={`platform-btn ${activeTab === 'projects' ? 'active' : ''}`}
+            class={`platform-btn admin-tab-btn ${activeTab === 'projects' ? 'active' : ''}`}
             onClick={() => setActiveTab('projects')}
-            style={{ flexDirection: 'row', width: '100%', justifyContent: 'flex-start', padding: '14px 20px', gap: '15px' }}
           >
             <i class="fa-solid fa-folder-plus"></i>
             <span>Manage Showcase Projects</span>
@@ -211,9 +209,8 @@ const AdminPanel = ({ onClose, onLogout }) => {
           
           <button 
             type="button" 
-            class={`platform-btn ${activeTab === 'reviews' ? 'active' : ''}`}
+            class={`platform-btn admin-tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
             onClick={() => setActiveTab('reviews')}
-            style={{ flexDirection: 'row', width: '100%', justifyContent: 'flex-start', padding: '14px 20px', gap: '15px' }}
           >
             <i class="fa-solid fa-comment-medical"></i>
             <span>Moderate Testimonials</span>
@@ -221,9 +218,8 @@ const AdminPanel = ({ onClose, onLogout }) => {
           
           <button 
             type="button" 
-            class={`platform-btn ${activeTab === 'security' ? 'active' : ''}`}
+            class={`platform-btn admin-tab-btn ${activeTab === 'security' ? 'active' : ''}`}
             onClick={() => setActiveTab('security')}
-            style={{ flexDirection: 'row', width: '100%', justifyContent: 'flex-start', padding: '14px 20px', gap: '15px' }}
           >
             <i class="fa-solid fa-shield-halved"></i>
             <span>Console Security</span>
@@ -231,7 +227,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
         </div>
 
         {/* Tab Contents card */}
-        <div class="glass-card" style={{ padding: '30px' }}>
+        <div class="glass-card admin-content-card">
           
           {/* TAB 1: OVERVIEW & ANALYTICS */}
           {activeTab === 'analytics' && (
@@ -394,7 +390,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
 
               {/* Projects List */}
               <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '15px' }}>Current Showcase List</h4>
-              <div class="glass-card" style={{ padding: '0', overflow: 'auto' }}>
+              <div class="glass-card table-responsive-wrapper" style={{ padding: '0' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
@@ -497,7 +493,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
 
               {/* Reviews List */}
               <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '15px' }}>Submitted Reviews Moderation</h4>
-              <div class="glass-card" style={{ padding: '0', overflow: 'auto' }}>
+              <div class="glass-card table-responsive-wrapper" style={{ padding: '0' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
@@ -533,13 +529,15 @@ const AdminPanel = ({ onClose, onLogout }) => {
                             {rev.approved ? 'Approved' : 'Pending'}
                           </span>
                         </td>
-                        <td style={{ padding: '12px 18px', textAlign: 'right', display: 'flex', gap: '8px', justifyContent: 'flex-end', borderBottom: 'none' }}>
-                          <button class="btn btn-secondary btn-sm" onClick={() => handleToggleApprove(rev.id)}>
-                            {rev.approved ? 'Reject' : 'Approve'}
-                          </button>
-                          <button class="btn btn-secondary btn-sm" onClick={() => handleDeleteReview(rev.id)} style={{ color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
-                            <i class="fa-solid fa-trash-can"></i>
-                          </button>
+                        <td style={{ padding: '12px 18px', textAlign: 'right' }}>
+                          <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                            <button class="btn btn-secondary btn-sm" onClick={() => handleToggleApprove(rev.id)}>
+                              {rev.approved ? 'Reject' : 'Approve'}
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onClick={() => handleDeleteReview(rev.id)} style={{ color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
+                              <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
