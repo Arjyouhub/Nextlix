@@ -163,31 +163,32 @@ const AdminPanel = ({ onClose, onLogout }) => {
   };
 
   return (
-    <div class="admin-panel-container container section-padding" style={{ minHeight: '100vh', position: 'relative', zIndex: 100 }}>
-      <div class="admin-panel-header" style={{ marginBottom: '40px', textAlign: 'center' }}>
-        <span class="section-tag" style={{ display: 'inline-block', textTransform: 'none', fontSize: '0.9rem', letterSpacing: '0.5px' }}>Nextlix Admin Panel</span>
-        <h2 class="section-title" style={{ margin: '10px 0 20px 0' }}><span class="gradient-text">Console Dashboard</span></h2>
-        
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', alignItems: 'center' }}>
-          <button class="btn btn-secondary" onClick={onClose}>
-            <i class="fa-solid fa-house"></i> <span class="admin-btn-text">Exit Dashboard</span>
-          </button>
-          <button class="btn btn-secondary" onClick={onLogout} style={{ color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
+    <div class="admin-dashboard-layout" style={{ minHeight: '100vh', position: 'relative', zIndex: 100 }}>
+      {/* Sleek Top Navbar */}
+      <header class="admin-navbar">
+        <div class="admin-nav-left">
+          <span class="admin-nav-logo">Nextlix</span>
+          <span class="admin-console-badge">Console</span>
+        </div>
+        <div class="admin-nav-right">
+          <button class="btn btn-secondary admin-logout-btn" onClick={onLogout}>
             <i class="fa-solid fa-power-off"></i> <span class="admin-btn-text">Logout</span>
           </button>
         </div>
-      </div>
+      </header>
 
-      {statusMessage && (
-        <div class="glass-card" style={{ padding: '12px 20px', borderLeft: '4px solid var(--accent-cyan)', marginBottom: '24px', color: 'var(--accent-cyan)', fontWeight: '600' }}>
-          <i class="fa-solid fa-circle-info" style={{ marginRight: '8px' }}></i> {statusMessage}
-        </div>
-      )}
+      {/* Main Grid Workspace */}
+      <div class="container" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
+        {statusMessage && (
+          <div class="glass-card" style={{ padding: '12px 20px', borderLeft: '4px solid var(--accent-cyan)', marginBottom: '24px', color: 'var(--accent-cyan)', fontWeight: '600' }}>
+            <i class="fa-solid fa-circle-info" style={{ marginRight: '8px' }}></i> {statusMessage}
+          </div>
+        )}
 
-      <div class="estimator-grid">
+        <div class="estimator-grid">
         {/* Navigation Tabs card */}
         <div class="glass-card admin-tabs-container">
-          <h3 class="estimator-subtitle" style={{ margin: '0 0 10px 0' }}>Dashboard Controls</h3>
+          <h3 class="admin-sidebar-title">Controls</h3>
           <button 
             type="button" 
             class={`platform-btn admin-tab-btn ${activeTab === 'analytics' ? 'active' : ''}`}
@@ -606,6 +607,7 @@ const AdminPanel = ({ onClose, onLogout }) => {
 
         </div>
       </div>
+     </div>
     </div>
   );
 };
