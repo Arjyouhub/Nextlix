@@ -137,8 +137,22 @@ async function seedDefaultDataIfEmpty() {
 
     const adminCount = await Admin.countDocuments();
     if (adminCount === 0) {
-      await Admin.create(defaultSeedData.admin);
+      const hashedPassword = await bcrypt.hash(defaultSeedData.admin.password, 10);
+      await Admin.create({
+        username: defaultSeedData.admin.username,
+        password: hashedPassword
+      });
       console.log('Seeded default admin credentials to MongoDB Atlas');
+    } else {
+      // Auto-migrate any unhashed plaintext admin passwords in MongoDB Atlas
+      const admins = await Admin.find();
+      for (const admin of admins) {
+        if (admin.password && !admin.password.startsWith('$2a$') && !admin.password.startsWith('$2b$') && !admin.password.startsWith('$2y$')) {
+          console.log(`Hashing plaintext password for MongoDB admin user: ${admin.username}`);
+          admin.password = await bcrypt.hash(admin.password, 10);
+          await admin.save();
+        }
+      }
     }
   } catch (error) {
     console.error('Error seeding MongoDB Atlas data:', error);
@@ -149,15 +163,26 @@ async function seedDefaultDataIfEmpty() {
 function readDb() {
   try {
     if (!fs.existsSync(DB_FILE)) {
-      writeDb(defaultSeedData);
-      return defaultSeedData;
+      const seedCopy = JSON.parse(JSON.stringify(defaultSeedData));
+      if (seedCopy.admin && seedCopy.admin.password) {
+        seedCopy.admin.password = bcrypt.hashSync(seedCopy.admin.password, 10);
+      }
+      writeDb(seedCopy);
+      return seedCopy;
     }
     const raw = fs.readFileSync(DB_FILE, 'utf8');
     const db = JSON.parse(raw);
     if (!db.admin) {
-      db.admin = defaultSeedData.admin;
+      db.admin = { ...defaultSeedData.admin };
+    }
+    
+    // Auto-migrate any unhashed plaintext admin password in local db.json
+    if (db.admin && db.admin.password && !db.admin.password.startsWith('$2a$') && !db.admin.password.startsWith('$2b$') && !db.admin.password.startsWith('$2y$')) {
+      console.log('Hashing plaintext password for local JSON admin');
+      db.admin.password = bcrypt.hashSync(db.admin.password, 10);
       writeDb(db);
     }
+    
     return db;
   } catch (error) {
     console.error('Error reading JSON database:', error);
