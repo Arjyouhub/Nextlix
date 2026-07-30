@@ -63,11 +63,51 @@ function App() {
   const [glowPos, setGlowPos] = useState({ x: 0, y: 0 });
   const [cursorHovered, setCursorHovered] = useState(false);
 
+  // Scroll progress & Intersection Observer state
+  const [scrollProgress, setScrollProgress] = useState(0);
+
   // Theme synchronization
   useEffect(() => {
     document.body.className = `${theme}-theme`;
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  // Scroll progress listener and Intersection Observer for reveal animations
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        const progress = Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100));
+        setScrollProgress(progress);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // Intersection Observer for modern scroll reveal animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.12
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    const animElements = document.querySelectorAll('.scroll-anim');
+    animElements.forEach(el => observer.observe(el));
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      animElements.forEach(el => observer.unobserve(el));
+    };
+  }, [isAdminView, showModal, estimateSummary]);
 
   // Cursor mousemove tracker
   useEffect(() => {
@@ -149,6 +189,14 @@ function App() {
 
   return (
     <>
+      {/* Glowing Top Scroll Progress Bar */}
+      {!isAdminView && (
+        <div 
+          class="top-scroll-progress-bar" 
+          style={{ width: `${scrollProgress}%` }}
+        ></div>
+      )}
+
       {/* Custom Glowing Cursor */}
       {!isAdminView && (
         <>

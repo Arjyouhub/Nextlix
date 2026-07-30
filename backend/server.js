@@ -91,11 +91,40 @@ const AnalyticsSchema = new mongoose.Schema({
 });
 const Analytics = mongoose.model('Analytics', AnalyticsSchema);
 
+const VisitorLogSchema = new mongoose.Schema({
+  ip: String,
+  path: String,
+  userAgent: String,
+  date: { type: Date, default: Date.now }
+});
+const VisitorLog = mongoose.model('VisitorLog', VisitorLogSchema);
+
+const InquirySchema = new mongoose.Schema({
+  id: Number,
+  name: String,
+  email: String,
+  phone: String,
+  category: String,
+  estimate: String,
+  message: String,
+  ip: String,
+  date: String
+});
+const Inquiry = mongoose.model('Inquiry', InquirySchema);
+
 const AdminSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true }
 });
 const Admin = mongoose.model('Admin', AdminSchema);
+
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+  return req.socket?.remoteAddress || req.ip || '127.0.0.1';
+}
 
 // ---------------- DATABASE CONNECTION & SEED FLOW ----------------
 let isMongoConnected = false;
@@ -391,6 +420,9 @@ app.get('/api/analytics', async (req, res) => {
 
 app.post('/api/analytics/view', async (req, res) => {
   const todayStr = new Date().toISOString().split('T')[0];
+  const clientIp = getClientIp(req);
+  const userAgent = req.headers['user-agent'] || 'Unknown Device';
+  const pagePath = req.body.path || '/';
 
   if (isMongoConnected) {
     try {
@@ -408,6 +440,10 @@ app.post('/api/analytics/view', async (req, res) => {
       }
 
       await stats.save();
+
+      // Log visitor IP
+      await VisitorLog.create({ ip: clientIp, userAgent, path: pagePath });
+
       return res.json(stats);
     } catch (e) {
       console.error('Mongo save pageview failed, falling back:', e);
@@ -423,8 +459,94 @@ app.post('/api/analytics/view', async (req, res) => {
   } else {
     db.analytics.dailyViews.push({ date: todayStr, count: 1 });
   }
+
+  db.visitorLogs = db.visitorLogs || [];
+  db.visitorLogs.unshift({ ip: clientIp, userAgent, path: pagePath, date: new Date().toISOString() });
+  if (db.visitorLogs.length > 100) db.visitorLogs.pop(); // Keep latest 100
+
   writeDb(db);
   res.json(db.analytics);
+});
+
+// VISITOR LOGS ENDPOINT
+app.get('/api/analytics/visitors', async (req, res) => {
+  if (isMongoConnected) {
+    try {
+      const logs = await VisitorLog.find().sort({ date: -1 }).limit(50);
+      return res.json(logs);
+    } catch (e) {
+      console.error('Mongo fetch visitor logs failed, falling back:', e);
+    }
+  }
+  const db = readDb();
+  res.json(db.visitorLogs || []);
+});
+
+// INQUIRIES & PHONE LEADS ENDPOINTS
+app.get('/api/inquiries', async (req, res) => {
+  if (isMongoConnected) {
+    try {
+      const inquiries = await Inquiry.find().sort({ id: -1 });
+      return res.json(inquiries);
+    } catch (e) {
+      console.error('Mongo fetch inquiries failed, falling back:', e);
+    }
+  }
+  const db = readDb();
+  res.json(db.inquiries || []);
+});
+
+app.post('/api/inquiries', async (req, res) => {
+  const clientIp = getClientIp(req);
+  const inquiryData = {
+    name: req.body.name || 'Anonymous Lead',
+    email: req.body.email || 'N/A',
+    phone: req.body.phone || 'N/A',
+    category: req.body.category || 'web',
+    estimate: req.body.estimate || 'None',
+    message: req.body.message || '',
+    ip: clientIp,
+    date: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+  };
+
+  if (isMongoConnected) {
+    try {
+      const newInquiry = new Inquiry({ id: Date.now(), ...inquiryData });
+      await newInquiry.save();
+      return res.status(201).json(newInquiry);
+    } catch (e) {
+      console.error('Mongo save inquiry failed, falling back:', e);
+    }
+  }
+
+  const db = readDb();
+  const newInquiry = { id: Date.now(), ...inquiryData };
+  db.inquiries = db.inquiries || [];
+  db.inquiries.unshift(newInquiry);
+  writeDb(db);
+  res.status(201).json(newInquiry);
+});
+
+app.delete('/api/inquiries/:id', async (req, res) => {
+  const idStr = req.params.id;
+  if (isMongoConnected) {
+    try {
+      if (mongoose.Types.ObjectId.isValid(idStr)) {
+        await Inquiry.findByIdAndDelete(idStr);
+      } else {
+        await Inquiry.deleteOne({ id: parseInt(idStr, 10) });
+      }
+      return res.json({ success: true, message: 'Inquiry deleted successfully' });
+    } catch (e) {
+      console.error('Mongo delete inquiry failed, falling back:', e);
+    }
+  }
+
+  const db = readDb();
+  const id = parseInt(idStr, 10);
+  db.inquiries = (db.inquiries || []).filter(inq => inq.id !== id);
+  writeDb(db);
+  res.json({ success: true, message: 'Inquiry deleted successfully' });
 });
 
 // ADMIN AUTH & SETTINGS ENDPOINTS

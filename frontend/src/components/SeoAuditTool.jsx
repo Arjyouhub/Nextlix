@@ -50,13 +50,13 @@ const SeoAuditTool = ({ onApplySeoEstimate }) => {
       <div class="container">
         <div class="section-header text-center scroll-anim scroll-anim-fade-up active">
           <span class="badge badge-accent">
-            <i class="fa-solid fa-chart-line"></i> AVNM Google #1 Rank Engine
+            <i class="fa-solid fa-chart-line"></i> Nextlix Google #1 Rank Engine
           </span>
           <h2 class="section-title">
             Website Development Startup & <span class="gradient-text">Google #1 Ranking Audit</span>
           </h2>
           <p class="section-subtitle">
-            Simulate your website's Google SERP performance, analyze Core Web Vitals, and unlock the exact SEO blueprint engineered by AVNM & Nextlix.
+            Simulate your website's Google SERP performance, analyze Core Web Vitals, and unlock the exact SEO blueprint engineered by Nextlix.
           </p>
         </div>
 
@@ -122,7 +122,7 @@ const SeoAuditTool = ({ onApplySeoEstimate }) => {
             <button 
               type="button" 
               class="preset-badge" 
-              onClick={() => { setDomainInput('avnm-startup.dev'); setTargetKeyword('Website Development Startup'); }}
+              onClick={() => { setDomainInput('nextlix.online'); setTargetKeyword('Website Development Startup'); }}
             >
               Website Development Startup
             </button>
@@ -132,13 +132,6 @@ const SeoAuditTool = ({ onApplySeoEstimate }) => {
               onClick={() => { setDomainInput('nextlix-seo.com'); setTargetKeyword('Google 1 Ranking Agency'); }}
             >
               Google #1 Ranking Agency
-            </button>
-            <button 
-              type="button" 
-              class="preset-badge" 
-              onClick={() => { setDomainInput('avnm.studio'); setTargetKeyword('AVNM Web Architecture'); }}
-            >
-              AVNM Web Architecture
             </button>
           </div>
         </div>
@@ -215,7 +208,7 @@ const SeoAuditTool = ({ onApplySeoEstimate }) => {
                     </h3>
 
                     <p class="serp-snippet">
-                      Top-ranked website development startup powering ultra-fast web apps, custom mobile apps, and sub-second loading speed. Engineered with AVNM Nextlix stack for guaranteed Google #1 ranking and 100/100 Core Web Vitals.
+                      Top-ranked website development startup powering ultra-fast web apps, custom mobile apps, and sub-second loading speed. Engineered with Nextlix stack for guaranteed Google #1 ranking and 100/100 Core Web Vitals.
                     </p>
 
                     <div class="serp-rich-badges">

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { getProjects, addProject, deleteProject, getReviews, addReview, toggleReviewApproval, deleteReview, getAnalytics, updateAdminCredentials } from '../api';
+import { getProjects, addProject, deleteProject, getReviews, addReview, toggleReviewApproval, deleteReview, getAnalytics, getVisitorLogs, getInquiries, deleteInquiry, updateAdminCredentials } from '../api';
 
 const AdminPanel = ({ onClose, onLogout }) => {
-  const [activeTab, setActiveTab] = useState('analytics');
+  const [activeTab, setActiveTab] = useState('inquiries');
   const [projects, setProjects] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [analytics, setAnalytics] = useState({ totalViews: 0, dailyViews: [] });
+  const [visitorLogs, setVisitorLogs] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
   const [statusMessage, setStatusMessage] = useState('');
   
   // Project Form State
@@ -176,6 +178,17 @@ const AdminPanel = ({ onClose, onLogout }) => {
     }
   };
 
+  const handleDeleteInquiry = async (id) => {
+    if (!confirm('Are you sure you want to delete this client inquiry?')) return;
+    try {
+      await deleteInquiry(id);
+      showStatus('Inquiry deleted successfully');
+      fetchData();
+    } catch (e) {
+      showStatus('Failed to delete inquiry');
+    }
+  };
+
   return (
     <div class="admin-dashboard-layout admin-panel-container" style={{ minHeight: '100vh', position: 'relative', zIndex: 100 }}>
       {/* Sleek Top Navbar */}
@@ -206,6 +219,30 @@ const AdminPanel = ({ onClose, onLogout }) => {
         {/* Navigation Tabs card */}
         <div class="glass-card admin-tabs-container">
           <h3 class="admin-sidebar-title">Controls</h3>
+          <button 
+            type="button" 
+            class={`platform-btn admin-tab-btn ${activeTab === 'inquiries' ? 'active' : ''}`}
+            onClick={() => setActiveTab('inquiries')}
+          >
+            <i class="fa-solid fa-phone-volume" style={{ color: 'var(--accent-cyan)' }}></i>
+            <span style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+              Inquiries & Phone Leads
+              <span class="badge" style={{ margin: 0, padding: '2px 8px', fontSize: '0.7rem' }}>{inquiries.length}</span>
+            </span>
+          </button>
+
+          <button 
+            type="button" 
+            class={`platform-btn admin-tab-btn ${activeTab === 'visitors' ? 'active' : ''}`}
+            onClick={() => setActiveTab('visitors')}
+          >
+            <i class="fa-solid fa-network-wired" style={{ color: 'var(--accent-cyan)' }}></i>
+            <span style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+              Visitor IP Logs
+              <span class="badge" style={{ margin: 0, padding: '2px 8px', fontSize: '0.7rem' }}>{visitorLogs.length}</span>
+            </span>
+          </button>
+
           <button 
             type="button" 
             class={`platform-btn admin-tab-btn ${activeTab === 'analytics' ? 'active' : ''}`}
@@ -245,7 +282,133 @@ const AdminPanel = ({ onClose, onLogout }) => {
 
         {/* Tab Contents card */}
         <div class="glass-card admin-content-card">
-          
+
+          {/* TAB 0A: CLIENT INQUIRIES & PHONE LEADS */}
+          {activeTab === 'inquiries' && (
+            <div>
+              <h3 class="estimator-subtitle">
+                <i class="fa-solid fa-phone-volume text-cyan"></i> Client Inquiries & Phone Leads
+              </h3>
+              <p class="section-description" style={{ marginBottom: '20px' }}>
+                All contact form submissions including phone numbers, attached estimates, and visitor IP addresses.
+              </p>
+
+              {inquiries.length === 0 ? (
+                <div class="glass-card" style={{ padding: '30px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                  No customer inquiries received yet. Form submissions will appear here live!
+                </div>
+              ) : (
+                <div class="table-responsive-wrapper">
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left' }}>
+                        <th>Client Details</th>
+                        <th>Phone / Contact</th>
+                        <th>Project & Estimate</th>
+                        <th>IP Address</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {inquiries.map((inq) => (
+                        <tr key={inq.id || inq._id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                          <td>
+                            <strong>{inq.name}</strong>
+                            <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>{inq.email}</div>
+                          </td>
+                          <td>
+                            <strong style={{ color: 'var(--accent-cyan)' }}>{inq.phone}</strong>
+                            <div style={{ marginTop: '4px', display: 'flex', gap: '8px' }}>
+                              <a href={`tel:${inq.phone}`} class="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.72rem' }}>
+                                <i class="fa-solid fa-phone"></i> Call
+                              </a>
+                              <a href={`https://wa.me/${inq.phone ? inq.phone.replace(/[^0-9]/g, '') : ''}`} target="_blank" rel="noopener noreferrer" class="btn btn-primary" style={{ padding: '2px 8px', fontSize: '0.72rem' }}>
+                                <i class="fa-brands fa-whatsapp"></i> Chat
+                              </a>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="badge" style={{ margin: 0, fontSize: '0.72rem', textTransform: 'uppercase' }}>{inq.category}</span>
+                            <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                              {inq.estimate !== 'None' ? inq.estimate : 'No Estimate Attached'}
+                            </div>
+                          </td>
+                          <td>
+                            <code style={{ background: 'rgba(0,242,254,0.1)', padding: '2px 6px', borderRadius: '4px', color: 'var(--accent-cyan)' }}>
+                              {inq.ip || '127.0.0.1'}
+                            </code>
+                          </td>
+                          <td style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{inq.date}</td>
+                          <td>
+                            <button 
+                              class="btn btn-secondary" 
+                              style={{ padding: '6px 12px', fontSize: '0.78rem', color: '#ef4444' }}
+                              onClick={() => handleDeleteInquiry(inq.id || inq._id)}
+                            >
+                              <i class="fa-solid fa-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB 0B: LIVE VISITOR IP LOGS */}
+          {activeTab === 'visitors' && (
+            <div>
+              <h3 class="estimator-subtitle">
+                <i class="fa-solid fa-network-wired text-cyan"></i> Live Visitor IP Logs
+              </h3>
+              <p class="section-description" style={{ marginBottom: '20px' }}>
+                Real-time IP addresses, device user agents, and page paths of website visitors.
+              </p>
+
+              {visitorLogs.length === 0 ? (
+                <div class="glass-card" style={{ padding: '30px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                  No visitor logs recorded yet. Visitor IP logs update automatically!
+                </div>
+              ) : (
+                <div class="table-responsive-wrapper">
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left' }}>
+                        <th>IP Address</th>
+                        <th>Device / User Agent</th>
+                        <th>Page Path</th>
+                        <th>Timestamp</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {visitorLogs.map((log, idx) => (
+                        <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                          <td>
+                            <code style={{ background: 'rgba(0,242,254,0.1)', padding: '4px 8px', borderRadius: '4px', color: 'var(--accent-cyan)', fontWeight: 'bold' }}>
+                              {log.ip}
+                            </code>
+                          </td>
+                          <td style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {log.userAgent}
+                          </td>
+                          <td>
+                            <span class="badge" style={{ margin: 0, fontSize: '0.72rem' }}>{log.path || '/'}</span>
+                          </td>
+                          <td style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                            {new Date(log.date).toLocaleString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* TAB 1: OVERVIEW & ANALYTICS */}
           {activeTab === 'analytics' && (
             <div>

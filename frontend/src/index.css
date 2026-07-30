@@ -1785,30 +1785,71 @@ body.light-theme .sun-icon { display: block; }
 }
 
 /* ------------------------------------------------------------- */
-/* 14. SCROLL ANIMATION STATES                                  */
+/* 14. MODERN SCROLL ANIMATION & PROGRESS SYSTEM                */
 /* ------------------------------------------------------------- */
+.top-scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00f2fe 0%, #4facfe 50%, #00f2fe 100%);
+  z-index: 10001;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.8), 0 0 20px rgba(0, 242, 254, 0.4);
+  transition: width 0.1s ease-out;
+  border-radius: 0 2px 2px 0;
+}
+
 .scroll-anim {
   opacity: 0;
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  will-change: transform, opacity;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scroll-anim-fade-up {
-  transform: translateY(30px);
+  transform: translateY(40px);
+}
+
+.scroll-anim-fade-down {
+  transform: translateY(-40px);
+}
+
+.scroll-anim-slide-left {
+  transform: translateX(-50px);
+}
+
+.scroll-anim-slide-right {
+  transform: translateX(50px);
 }
 
 .scroll-anim-scale-in {
-  transform: scale(0.95);
+  transform: scale(0.88);
+}
+
+.scroll-anim-flip-in {
+  transform: perspective(1000px) rotateX(12deg) translateY(30px);
 }
 
 .scroll-anim.active {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0) translateX(0) scale(1) perspective(1000px) rotateX(0deg);
 }
 
-/* Delay modifiers */
+/* Delay modifiers & Automatic Grid Staggering */
 .delay-1 { transition-delay: 0.1s; }
 .delay-2 { transition-delay: 0.2s; }
 .delay-3 { transition-delay: 0.3s; }
+
+.services-grid > .scroll-anim:nth-child(1) { transition-delay: 0.05s; }
+.services-grid > .scroll-anim:nth-child(2) { transition-delay: 0.15s; }
+.services-grid > .scroll-anim:nth-child(3) { transition-delay: 0.25s; }
+.services-grid > .scroll-anim:nth-child(4) { transition-delay: 0.35s; }
+
+.portfolio-grid > .scroll-anim:nth-child(1) { transition-delay: 0.05s; }
+.portfolio-grid > .scroll-anim:nth-child(2) { transition-delay: 0.2s; }
+
+.testimonials-grid > .scroll-anim:nth-child(1) { transition-delay: 0.05s; }
+.testimonials-grid > .scroll-anim:nth-child(2) { transition-delay: 0.15s; }
+.testimonials-grid > .scroll-anim:nth-child(3) { transition-delay: 0.25s; }
 
 /* ------------------------------------------------------------- */
 /* 15. RESPONSIVE BREAKPOINTS                                    */

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { submitInquiry } from '../api';
 
 const Contact = ({ estimateSummary, projectCategory, onClearEstimate, onSubmitSuccess }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
   const [projectType, setProjectType] = useState('web');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,7 +23,18 @@ const Contact = ({ estimateSummary, projectCategory, onClearEstimate, onSubmitSu
     setSubmitError('');
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/dev.nextlix@gmail.com", {
+      // 1. Submit to Backend database (MongoDB Atlas / local db.json) with IP & Phone Number
+      await submitInquiry({
+        name,
+        email,
+        phone,
+        category: projectType,
+        estimate: estimateSummary || 'None',
+        message
+      }).catch(err => console.warn('Backend inquiry save warning:', err));
+
+      // 2. Submit to FormSubmit.co email service
+      fetch("https://formsubmit.co/ajax/dev.nextlix@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,38 +43,36 @@ const Contact = ({ estimateSummary, projectCategory, onClearEstimate, onSubmitSu
         body: JSON.stringify({
           name,
           email,
+          phone,
           category: projectType,
           project_estimate: estimateSummary || 'None',
           message,
           _captcha: "false"
         })
-      });
+      }).catch(err => console.warn('FormSubmit email warning:', err));
 
-      const data = await response.json();
+      // Trigger the success modal in App.jsx
+      if (onSubmitSuccess) {
+        onSubmitSuccess({
+          name,
+          email,
+          phone,
+          projectType,
+          estimate: estimateSummary
+        });
+      }
 
-      if (response.ok && (data.success === "true" || data.success === true)) {
-        // Trigger the success modal in App.jsx
-        if (onSubmitSuccess) {
-          onSubmitSuccess({
-            name,
-            email,
-            projectType,
-            estimate: estimateSummary
-          });
-        }
-        // Clear fields
-        setName('');
-        setEmail('');
-        setMessage('');
-        if (onClearEstimate) {
-          onClearEstimate();
-        }
-      } else {
-        setSubmitError(data.message || 'Something went wrong. Please try again.');
+      // Clear fields
+      setName('');
+      setEmail('');
+      setPhone('');
+      setMessage('');
+      if (onClearEstimate) {
+        onClearEstimate();
       }
     } catch (err) {
       console.error("Submission error:", err);
-      setSubmitError('Failed to connect to the server. Please check your connection and try again.');
+      setSubmitError('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -140,6 +151,21 @@ const Contact = ({ estimateSummary, projectCategory, onClearEstimate, onSubmitSu
                     class="form-input"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled={isSubmitting}
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="formPhone" class="form-label">Phone / WhatsApp Number *</label>
+                  <input 
+                    type="tel" 
+                    id="formPhone" 
+                    name="phone"
+                    required 
+                    placeholder="+91 98765 43210" 
+                    class="form-input"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
                     disabled={isSubmitting}
                   />
                 </div>

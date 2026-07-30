@@ -43,7 +43,7 @@ const Hero = () => {
   return (
     <section id="home" class="hero-section">
       <div class="container hero-container">
-        <div class="hero-content scroll-anim scroll-anim-fade-up active">
+        <div class="hero-content scroll-anim scroll-anim-fade-up">
           <span class="badge">Building What's Next</span>
           <h1 class="hero-title">
             Transforming Ideas Into <span class="gradient-text">Stunning Reality</span>
@@ -63,7 +63,7 @@ const Hero = () => {
         </div>
         
         {/* Hero Interactive Graphic */}
-        <div class="hero-visual scroll-anim scroll-anim-scale-in active">
+        <div class="hero-visual scroll-anim scroll-anim-scale-in">
           <div class="floating-card-wrapper">
             <div class="glass-card visual-card main-visual-card">
               <img src="/assets/nextlix-logo-chevron.jpg" alt="Nextlix Logo Symbol" class="floating-logo" />

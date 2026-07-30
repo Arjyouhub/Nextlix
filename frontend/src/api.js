@@ -62,7 +62,40 @@ export async function getAnalytics() {
 }
 
 export async function trackPageView() {
-  const res = await fetch(`${API_BASE}/analytics/view`, { method: 'POST' });
+  const res = await fetch(`${API_BASE}/analytics/view`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ path: window.location.pathname })
+  });
+  if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+  return await res.json();
+}
+
+export async function getVisitorLogs() {
+  const res = await fetch(`${API_BASE}/analytics/visitors`);
+  if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+  return await res.json();
+}
+
+// ---------------- INQUIRIES & LEADS ----------------
+export async function getInquiries() {
+  const res = await fetch(`${API_BASE}/inquiries`);
+  if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+  return await res.json();
+}
+
+export async function submitInquiry(inquiryData) {
+  const res = await fetch(`${API_BASE}/inquiries`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(inquiryData)
+  });
+  if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+  return await res.json();
+}
+
+export async function deleteInquiry(id) {
+  const res = await fetch(`${API_BASE}/inquiries/${id}`, { method: 'DELETE' });
   if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
   return await res.json();
 }
