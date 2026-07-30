@@ -1,6 +1,4 @@
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? '/api'
-  : 'https://nextlix.onrender.com/api';
+const API_BASE = '/api';
 
 // ---------------- PROJECTS ----------------
 export async function getProjects() {
@@ -62,10 +60,28 @@ export async function getAnalytics() {
 }
 
 export async function trackPageView() {
+  let detectedIp = '';
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+    const ipRes = await fetch('https://api.ipify.org?format=json', { signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (ipRes.ok) {
+      const ipData = await ipRes.json();
+      detectedIp = ipData.ip;
+    }
+  } catch (e) {
+    // Ignore silent IP fetch error and let backend fallback
+  }
+
   const res = await fetch(`${API_BASE}/analytics/view`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ path: window.location.pathname })
+    body: JSON.stringify({ 
+      path: window.location.pathname,
+      clientIp: detectedIp,
+      userAgent: navigator.userAgent
+    })
   });
   if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
   return await res.json();

@@ -454,8 +454,8 @@ app.get('/api/analytics', async (req, res) => {
 
 app.post('/api/analytics/view', async (req, res) => {
   const todayStr = new Date().toISOString().split('T')[0];
-  const clientIp = getClientIp(req);
-  const userAgent = req.headers['user-agent'] || 'Unknown Device';
+  const clientIp = req.body.clientIp || getClientIp(req);
+  const userAgent = req.body.userAgent || req.headers['user-agent'] || 'Unknown Device';
   const deviceModel = parseDeviceModel(userAgent);
   const pagePath = req.body.path || '/';
 
