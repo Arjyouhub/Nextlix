@@ -81,7 +81,7 @@ const Contact = ({ estimateSummary, projectCategory, onClearEstimate, onSubmitSu
   return (
     <section id="contact" class="contact-section section-padding">
       <div class="container">
-        <div class="section-header scroll-anim scroll-anim-fade-up active">
+        <div class="section-header scroll-anim scroll-anim-fade-up">
           <span class="section-tag">Let's Connect</span>
           <h2 class="section-title">Initiate Your <span class="gradient-text">Digital Legacy</span></h2>
           <p class="section-description">Fill out our form below to send an inquiry directly to our inbox. If you used the estimator above, your project estimate details will automatically attach!</p>
@@ -89,7 +89,7 @@ const Contact = ({ estimateSummary, projectCategory, onClearEstimate, onSubmitSu
         
         <div class="contact-grid">
           {/* Contact Info Cards */}
-          <div class="contact-info-panel scroll-anim scroll-anim-fade-up active">
+          <div class="contact-info-panel scroll-anim scroll-anim-slide-left">
             <div class="glass-card contact-info-card">
               <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
               <div class="info-text">
@@ -122,7 +122,7 @@ const Contact = ({ estimateSummary, projectCategory, onClearEstimate, onSubmitSu
           </div>
           
           {/* Contact Form Card using FormSubmit.co AJAX */}
-          <div class="glass-card contact-form-card scroll-anim scroll-anim-fade-up active">
+          <div class="glass-card contact-form-card scroll-anim scroll-anim-slide-right">
             <form onSubmit={handleSubmit}>
               <div class="form-row">
                 <div class="form-group">

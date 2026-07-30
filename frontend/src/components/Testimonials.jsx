@@ -67,7 +67,7 @@ const Testimonials = () => {
   return (
     <section id="reviews" class="testimonials-section section-padding" style={{ borderTop: '1px solid var(--border-color)' }}>
       <div class="container">
-        <div class="section-header scroll-anim scroll-anim-fade-up active">
+        <div class="section-header scroll-anim scroll-anim-fade-up">
           <span class="section-tag">Client Feedback</span>
           <h2 class="section-title">What Our Clients <span class="gradient-text">Say About Us</span></h2>
           <p class="section-description">We take pride in delivering clean architectures, animations, and bespoke web platforms for startups and corporations globally.</p>
@@ -81,7 +81,7 @@ const Testimonials = () => {
             </div>
           ) : (
             reviews.map(rev => (
-              <div key={rev.id} class="glass-card service-card scroll-anim scroll-anim-fade-up active" style={{ padding: '30px' }}>
+              <div key={rev.id} class="glass-card service-card scroll-anim scroll-anim-fade-up" style={{ padding: '30px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: '15px' }}>
                   <div>
                     <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', margin: 0, fontSize: '1.1rem' }}>{rev.name}</h4>

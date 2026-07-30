@@ -131,7 +131,7 @@ const Estimator = ({ onApplyEstimate }) => {
   return (
     <section id="estimator" class="estimator-section section-padding">
       <div class="container">
-        <div class="section-header scroll-anim scroll-anim-fade-up active">
+        <div class="section-header scroll-anim scroll-anim-fade-up">
           <span class="section-tag">Interactive Planner</span>
           <h2 class="section-title">Build Your <span class="gradient-text">Project Estimate</span></h2>
           <p class="section-description">Select your requirements below and receive a transparent, dynamic estimation of budget and delivery timelines instantly.</p>
@@ -139,7 +139,7 @@ const Estimator = ({ onApplyEstimate }) => {
         
         <div class="estimator-grid">
           {/* Settings Controls */}
-          <div class="glass-card estimator-controls scroll-anim scroll-anim-fade-up active">
+          <div class="glass-card estimator-controls scroll-anim scroll-anim-slide-left">
             
             {/* Currency Selector (Default INR, choices: USD, EUR, GBP) */}
             <div class="input-group currency-selector-container">
@@ -266,7 +266,7 @@ const Estimator = ({ onApplyEstimate }) => {
           </div>
           
           {/* Results Screen */}
-          <div class="estimator-results-card scroll-anim scroll-anim-fade-up active">
+          <div class="estimator-results-card scroll-anim scroll-anim-slide-right">
             <div class="results-glow"></div>
             <div class="results-inner">
               <h3 class="results-heading">Your Custom Estimate</h3>

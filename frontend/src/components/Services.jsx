@@ -21,7 +21,7 @@ const Services = () => {
   return (
     <section id="services" class="services-section section-padding">
       <div class="container">
-        <div class="section-header scroll-anim scroll-anim-fade-up active">
+        <div class="section-header scroll-anim scroll-anim-fade-up">
           <span class="section-tag">What We Do</span>
           <h2 class="section-title">Our Technical <span class="gradient-text">Superpowers</span></h2>
           <p class="section-description">We merge state-of-the-art architectures with pixel-perfect designs to build solutions that scale with your business growth.</p>
@@ -30,7 +30,7 @@ const Services = () => {
         <div class="services-grid">
           {/* Web Dev */}
           <div 
-            class="glass-card service-card scroll-anim scroll-anim-fade-up active"
+            class="glass-card service-card scroll-anim scroll-anim-fade-up"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
@@ -48,7 +48,7 @@ const Services = () => {
           
           {/* Mobile Dev */}
           <div 
-            class="glass-card service-card scroll-anim scroll-anim-fade-up active"
+            class="glass-card service-card scroll-anim scroll-anim-fade-up"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
@@ -66,7 +66,7 @@ const Services = () => {
           
           {/* UI/UX Architecture */}
           <div 
-            class="glass-card service-card scroll-anim scroll-anim-fade-up active"
+            class="glass-card service-card scroll-anim scroll-anim-fade-up"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
@@ -84,7 +84,7 @@ const Services = () => {
           
           {/* Cloud & Scaling */}
           <div 
-            class="glass-card service-card scroll-anim scroll-anim-fade-up active"
+            class="glass-card service-card scroll-anim scroll-anim-fade-up"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >

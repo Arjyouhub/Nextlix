@@ -17,7 +17,7 @@ const Footer = () => {
   return (
     <footer class="site-footer">
       <div class="container footer-grid">
-        <div class="footer-brand">
+        <div class="footer-brand scroll-anim scroll-anim-fade-up">
           <div className="footer-logo-container" style={{ marginBottom: '20px', display: 'inline-block' }}>
             <LogoText />
           </div>
@@ -31,7 +31,7 @@ const Footer = () => {
           </div>
         </div>
         
-        <div class="footer-links">
+        <div class="footer-links scroll-anim scroll-anim-fade-up">
           <h4>Navigation</h4>
           <ul>
             <li><a href="#home">Home</a></li>
@@ -43,7 +43,7 @@ const Footer = () => {
           </ul>
         </div>
         
-        <div class="footer-newsletter">
+        <div class="footer-newsletter scroll-anim scroll-anim-fade-up">
           <h4>Newsletter</h4>
           <p>Subscribe to our periodic digests on digital tech trends and project releases.</p>
           <form class="newsletter-form" id="newsletterForm" onSubmit={handleSubscribe}>

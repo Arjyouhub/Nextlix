@@ -40,7 +40,7 @@ const StatCard = ({ target, suffix, label, glowClass }) => {
   }, [target]);
 
   return (
-    <div ref={cardRef} class={`glass-card stat-card ${glowClass} scroll-anim scroll-anim-scale-in active`}>
+    <div ref={cardRef} class={`glass-card stat-card ${glowClass} scroll-anim scroll-anim-scale-in`}>
       <span class="stat-number">{count}</span>
       <span class="stat-plus">{suffix}</span>
       <span class="stat-label">{label}</span>
@@ -52,7 +52,7 @@ const About = () => {
   return (
     <section id="about" class="about-section section-padding">
       <div class="container about-grid">
-        <div class="about-content scroll-anim scroll-anim-fade-up active">
+        <div class="about-content scroll-anim scroll-anim-fade-up">
           <span class="section-tag">Who We Are</span>
           <h2 class="section-title">We engineer the future, <span class="gradient-text">pixel by pixel</span></h2>
           <p class="about-para">Nextlix is an agile software engineering boutique. We collaborate with bold visionaries to design and code products that command attention and drive growth.</p>

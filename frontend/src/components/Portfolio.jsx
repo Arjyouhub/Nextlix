@@ -25,14 +25,14 @@ const Portfolio = () => {
   return (
     <section id="portfolio" class="portfolio-section section-padding">
       <div class="container">
-        <div class="section-header scroll-anim scroll-anim-fade-up active">
+        <div class="section-header scroll-anim scroll-anim-fade-up">
           <span class="section-tag">Case Studies</span>
           <h2 class="section-title">Crafting digital <span class="gradient-text">Masterpieces</span></h2>
           <p class="section-description">A curated selection of modern platforms, dynamic interfaces, and mobile architectures developed for startups and enterprises.</p>
         </div>
         
         {/* Filter Tabs */}
-        <div class="portfolio-tabs scroll-anim scroll-anim-fade-up active">
+        <div class="portfolio-tabs scroll-anim scroll-anim-fade-up">
           <button 
             class={`tab-btn ${filter === 'all' ? 'active' : ''}`} 
             onClick={() => setFilter('all')}
@@ -56,7 +56,7 @@ const Portfolio = () => {
         {/* Portfolio Projects Grid */}
         <div class="portfolio-grid">
           {filteredProjects.map(project => (
-            <div key={project.id} class="glass-card project-card scroll-anim scroll-anim-fade-up active">
+            <div key={project.id} class="glass-card project-card scroll-anim scroll-anim-fade-up">
               <div class="project-image-wrapper">
                 <div class="project-overlay">
                   <div class="project-overlay-content">
