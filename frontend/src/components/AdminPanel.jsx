@@ -221,35 +221,26 @@ const AdminPanel = ({ onClose, onLogout }) => {
           <h3 class="admin-sidebar-title">Controls</h3>
           <button 
             type="button" 
+            class={`platform-btn admin-tab-btn ${activeTab === 'analytics' ? 'active' : ''}`}
+            onClick={() => setActiveTab('analytics')}
+          >
+            <i class="fa-solid fa-chart-simple" style={{ color: 'var(--accent-cyan)' }}></i>
+            <span style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+              Overview, IP & Analytics
+              <span class="badge" style={{ margin: 0, padding: '2px 8px', fontSize: '0.7rem' }}>{visitorLogs.length} Hits</span>
+            </span>
+          </button>
+
+          <button 
+            type="button" 
             class={`platform-btn admin-tab-btn ${activeTab === 'inquiries' ? 'active' : ''}`}
             onClick={() => setActiveTab('inquiries')}
           >
-            <i class="fa-solid fa-phone-volume" style={{ color: 'var(--accent-cyan)' }}></i>
+            <i class="fa-solid fa-phone-volume"></i>
             <span style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
               Inquiries & Phone Leads
               <span class="badge" style={{ margin: 0, padding: '2px 8px', fontSize: '0.7rem' }}>{inquiries.length}</span>
             </span>
-          </button>
-
-          <button 
-            type="button" 
-            class={`platform-btn admin-tab-btn ${activeTab === 'visitors' ? 'active' : ''}`}
-            onClick={() => setActiveTab('visitors')}
-          >
-            <i class="fa-solid fa-network-wired" style={{ color: 'var(--accent-cyan)' }}></i>
-            <span style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-              Visitor IP Logs
-              <span class="badge" style={{ margin: 0, padding: '2px 8px', fontSize: '0.7rem' }}>{visitorLogs.length}</span>
-            </span>
-          </button>
-
-          <button 
-            type="button" 
-            class={`platform-btn admin-tab-btn ${activeTab === 'analytics' ? 'active' : ''}`}
-            onClick={() => setActiveTab('analytics')}
-          >
-            <i class="fa-solid fa-chart-simple"></i>
-            <span>Overview & Analytics</span>
           </button>
           
           <button 
@@ -358,61 +349,12 @@ const AdminPanel = ({ onClose, onLogout }) => {
             </div>
           )}
 
-          {/* TAB 0B: LIVE VISITOR IP LOGS */}
-          {activeTab === 'visitors' && (
-            <div>
-              <h3 class="estimator-subtitle">
-                <i class="fa-solid fa-network-wired text-cyan"></i> Live Visitor IP Logs
-              </h3>
-              <p class="section-description" style={{ marginBottom: '20px' }}>
-                Real-time IP addresses, device user agents, and page paths of website visitors.
-              </p>
-
-              {visitorLogs.length === 0 ? (
-                <div class="glass-card" style={{ padding: '30px', textAlign: 'center', color: 'var(--text-secondary)' }}>
-                  No visitor logs recorded yet. Visitor IP logs update automatically!
-                </div>
-              ) : (
-                <div class="table-responsive-wrapper">
-                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
-                    <thead>
-                      <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left' }}>
-                        <th>IP Address</th>
-                        <th>Device / User Agent</th>
-                        <th>Page Path</th>
-                        <th>Timestamp</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {visitorLogs.map((log, idx) => (
-                        <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                          <td>
-                            <code style={{ background: 'rgba(0,242,254,0.1)', padding: '4px 8px', borderRadius: '4px', color: 'var(--accent-cyan)', fontWeight: 'bold' }}>
-                              {log.ip}
-                            </code>
-                          </td>
-                          <td style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            {log.userAgent}
-                          </td>
-                          <td>
-                            <span class="badge" style={{ margin: 0, fontSize: '0.72rem' }}>{log.path || '/'}</span>
-                          </td>
-                          <td style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                            {new Date(log.date).toLocaleString()}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* TAB 1: OVERVIEW & ANALYTICS */}
+          {/* TAB 1: OVERVIEW & ANALYTICS WITH EMBEDDED VISITOR IP LOGS */}
           {activeTab === 'analytics' && (
             <div>
-              <h3 class="estimator-subtitle">Visitor Analytics Overview</h3>
+              <h3 class="estimator-subtitle">
+                <i class="fa-solid fa-chart-simple text-cyan"></i> Visitor Analytics & Live IP Tracker
+              </h3>
               
               <div class="about-stats" style={{ marginBottom: '40px', marginTop: '20px' }}>
                 <div class="glass-card stat-card glow-cyan">
@@ -421,20 +363,66 @@ const AdminPanel = ({ onClose, onLogout }) => {
                   <span class="stat-label">Total Site Visits</span>
                 </div>
                 <div class="glass-card stat-card glow-purple">
-                  <span class="stat-number">{projects.length}</span>
+                  <span class="stat-number">{visitorLogs.length}</span>
                   <span class="stat-plus"></span>
-                  <span class="stat-label">Active Portfolio Projects</span>
+                  <span class="stat-label">Logged Visitor IPs</span>
                 </div>
                 <div class="glass-card stat-card glow-cyan">
-                  <span class="stat-number">{reviews.filter(r => r.approved).length}</span>
+                  <span class="stat-number">{inquiries.length}</span>
                   <span class="stat-plus"></span>
-                  <span class="stat-label">Approved Testimonials</span>
+                  <span class="stat-label">Inquiries & Leads</span>
                 </div>
                 <div class="glass-card stat-card glow-purple">
-                  <span class="stat-number">{reviews.filter(r => !r.approved).length}</span>
+                  <span class="stat-number">{projects.length}</span>
                   <span class="stat-plus"></span>
-                  <span class="stat-label">Pending Reviews</span>
+                  <span class="stat-label">Active Projects</span>
                 </div>
+              </div>
+
+              {/* Live Visitor IP Logs Section */}
+              <div style={{ marginBottom: '40px' }}>
+                <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--accent-cyan)', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <i class="fa-solid fa-network-wired"></i> Live Visitor IP Addresses & Device Logs
+                </h4>
+                
+                {visitorLogs.length === 0 ? (
+                  <div class="glass-card" style={{ padding: '24px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                    No visitor logs recorded yet. IP address logs update automatically on every visit!
+                  </div>
+                ) : (
+                  <div class="table-responsive-wrapper">
+                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
+                      <thead>
+                        <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)', textAlign: 'left' }}>
+                          <th style={{ padding: '12px 16px' }}>Visitor IP Address</th>
+                          <th style={{ padding: '12px 16px' }}>Browser / Device Info</th>
+                          <th style={{ padding: '12px 16px' }}>Visited Path</th>
+                          <th style={{ padding: '12px 16px' }}>Date & Time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {visitorLogs.map((log, idx) => (
+                          <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                            <td style={{ padding: '12px 16px' }}>
+                              <code style={{ background: 'rgba(0,242,254,0.12)', padding: '4px 8px', borderRadius: '4px', color: 'var(--accent-cyan)', fontWeight: 'bold' }}>
+                                {log.ip}
+                              </code>
+                            </td>
+                            <td style={{ padding: '12px 16px', fontSize: '0.78rem', color: 'var(--text-secondary)', maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {log.userAgent}
+                            </td>
+                            <td style={{ padding: '12px 16px' }}>
+                              <span class="badge" style={{ margin: 0, fontSize: '0.72rem' }}>{log.path || '/'}</span>
+                            </td>
+                            <td style={{ padding: '12px 16px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                              {new Date(log.date).toLocaleString()}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
 
               <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', marginBottom: '15px' }}>Daily Traffic History</h4>
@@ -442,20 +430,20 @@ const AdminPanel = ({ onClose, onLogout }) => {
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
                     <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
-                      <th>Date</th>
-                      <th>Page Views / Unique Hits</th>
+                      <th style={{ padding: '12px 16px' }}>Date</th>
+                      <th style={{ padding: '12px 16px' }}>Page Views / Hits</th>
                     </tr>
                   </thead>
                   <tbody>
                     {(analytics.dailyViews || []).length === 0 ? (
                       <tr>
-                        <td colSpan="2" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>No traffic recorded yet.</td>
+                        <td colSpan="2" style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '16px' }}>No traffic recorded yet.</td>
                       </tr>
                     ) : (
                       [...(analytics.dailyViews || [])].reverse().map((dv, idx) => (
                         <tr key={idx} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                          <td style={{ color: 'var(--text-secondary)' }}>{dv.date}</td>
-                          <td style={{ color: 'var(--accent-cyan)', fontWeight: 'bold' }}>{dv.count} views</td>
+                          <td style={{ color: 'var(--text-secondary)', padding: '12px 16px' }}>{dv.date}</td>
+                          <td style={{ color: 'var(--accent-cyan)', fontWeight: 'bold', padding: '12px 16px' }}>{dv.count} views</td>
                         </tr>
                       ))
                     )}
