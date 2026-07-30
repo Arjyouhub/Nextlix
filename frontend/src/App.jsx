@@ -3,6 +3,7 @@ import CanvasParticles from './components/CanvasParticles';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Services from './components/Services';
+import SeoAuditTool from './components/SeoAuditTool';
 import Estimator from './components/Estimator';
 import Portfolio from './components/Portfolio';
 import Testimonials from './components/Testimonials';
@@ -107,7 +108,7 @@ function App() {
 
     // Run this whenever the DOM renders/updates
     const interactives = document.querySelectorAll(
-      'a, button, select, input, textarea, .platform-btn, .design-btn, .checkbox-container, .currency-btn'
+      'a, button, select, input, textarea, .platform-btn, .design-btn, .checkbox-container, .currency-btn, .seo-tab-btn, .preset-badge'
     );
     
     interactives.forEach(el => {
@@ -188,6 +189,7 @@ function App() {
             {/* Sections composition */}
             <Hero />
             <Services />
+            <SeoAuditTool />
             <Estimator onApplyEstimate={handleApplyEstimate} />
             <Portfolio />
             <Testimonials />

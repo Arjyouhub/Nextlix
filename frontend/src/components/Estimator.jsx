@@ -36,7 +36,8 @@ const Estimator = ({ onApplyEstimate }) => {
       payments: 3000,
       chat: 4000,
       dashboard: 5000,
-      geo: 2500
+      geo: 2500,
+      seo: 3500
     },
     design: {
       standard: 1.0,
@@ -72,6 +73,7 @@ const Estimator = ({ onApplyEstimate }) => {
         case 'chat': timeSum += 1.0; break;
         case 'dashboard': timeSum += 0.8; break;
         case 'geo': timeSum += 0.4; break;
+        case 'seo': timeSum += 0.5; break;
       }
     });
 
@@ -209,6 +211,7 @@ const Estimator = ({ onApplyEstimate }) => {
             <h3 class="estimator-subtitle spacing-top">2. Choose Key Features</h3>
             <div class="features-checklist">
               {[
+                { id: 'seo', label: 'Google #1 Rank & Schema Optimization', icon: 'fa-brands fa-google' },
                 { id: 'auth', label: 'Secure User Auth', icon: 'fa-shield-halved' },
                 { id: 'db', label: 'Database Integration', icon: 'fa-database' },
                 { id: 'payments', label: 'Stripe & Online Payments', icon: 'fa-credit-card' },

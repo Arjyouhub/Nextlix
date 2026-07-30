@@ -7,10 +7,10 @@ const Hero = () => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const textArray = [
-    "web experiences that scale perfectly.",
-    "native mobile apps with absolute speed.",
-    "cutting-edge designs that hook attention.",
-    "reliable cloud solutions configured to expand."
+    "Google #1 ranking web apps with AVNM architecture.",
+    "website development startup platforms built for speed.",
+    "native mobile apps with sub-second performance.",
+    "100/100 Core Web Vitals software for fast scaling."
   ];
 
   useEffect(() => {
@@ -44,20 +44,22 @@ const Hero = () => {
     <section id="home" class="hero-section">
       <div class="container hero-container">
         <div class="hero-content scroll-anim scroll-anim-fade-up active">
-          <span class="badge">Building What's Next</span>
+          <span class="badge badge-accent">
+            <i class="fa-solid fa-trophy"></i> AVNM Website Development Startup
+          </span>
           <h1 class="hero-title">
-            Transforming Ideas Into <span class="gradient-text">Stunning Reality</span>
+            Engineered For <span class="gradient-text">Google #1 Ranking</span> & Scale
           </h1>
           <p class="hero-subtitle">
-            We engineer high-performance {typedText}
+            We build high-performance {typedText}
             <span class="typed-cursor">|</span>
           </p>
           <div class="hero-actions">
-            <a href="#estimator" class="btn btn-primary">
-              Estimate Project <i class="fa-solid fa-arrow-right"></i>
+            <a href="#seo-audit" class="btn btn-primary">
+              Run Rank #1 Audit <i class="fa-solid fa-chart-line"></i>
             </a>
-            <a href="#portfolio" class="btn btn-secondary">
-              View Showcase
+            <a href="#estimator" class="btn btn-secondary">
+              Estimate Project <i class="fa-solid fa-arrow-right"></i>
             </a>
           </div>
         </div>
@@ -71,26 +73,26 @@ const Hero = () => {
             </div>
             
             <div class="glass-card floating-subcard subcard-1">
-              <div class="subcard-icon"><i class="fa-solid fa-code"></i></div>
+              <div class="subcard-icon"><i class="fa-brands fa-google"></i></div>
               <div class="subcard-info">
-                <span class="subcard-title">Clean Code</span>
-                <span class="subcard-desc">React & Next.js</span>
+                <span class="subcard-title">Google #1 Rank</span>
+                <span class="subcard-desc">Schema & SEO</span>
               </div>
             </div>
             
             <div class="glass-card floating-subcard subcard-2">
-              <div class="subcard-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+              <div class="subcard-icon"><i class="fa-solid fa-microchip"></i></div>
               <div class="subcard-info">
-                <span class="subcard-title">Android</span>
-                <span class="subcard-desc">Native Speed</span>
+                <span class="subcard-title">AVNM Engine</span>
+                <span class="subcard-desc">React & Next.js</span>
               </div>
             </div>
             
             <div class="glass-card floating-subcard subcard-3">
               <div class="subcard-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
               <div class="subcard-info">
-                <span class="subcard-title">99+ Perf Score</span>
-                <span class="subcard-desc">Optimized UX</span>
+                <span class="subcard-title">100/100 Speed</span>
+                <span class="subcard-desc">Core Web Vitals</span>
               </div>
             </div>
           </div>
