@@ -115,6 +115,13 @@ const SeoAuditTool = ({ onApplySeoEstimate }) => {
             <button 
               type="button" 
               class="preset-badge" 
+              onClick={() => { setDomainInput('nextlix.online'); setTargetKeyword('Best Website Development Company in Kerala'); }}
+            >
+              Best Website Development Company in Kerala
+            </button>
+            <button 
+              type="button" 
+              class="preset-badge" 
               onClick={() => { setDomainInput('avnm-startup.dev'); setTargetKeyword('Website Development Startup'); }}
             >
               Website Development Startup
