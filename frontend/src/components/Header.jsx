@@ -17,7 +17,6 @@ const Header = ({ theme, setTheme, mobileMenuOpen, setMobileMenuOpen }) => {
           <ul>
             <li><a href="#home" class="nav-link" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
             <li><a href="#services" class="nav-link" onClick={() => setMobileMenuOpen(false)}>Services</a></li>
-            <li><a href="#seo-audit" class="nav-link nav-highlight" onClick={() => setMobileMenuOpen(false)}>SEO Rank #1</a></li>
             <li><a href="#estimator" class="nav-link" onClick={() => setMobileMenuOpen(false)}>Estimator</a></li>
             <li><a href="#portfolio" class="nav-link" onClick={() => setMobileMenuOpen(false)}>Portfolio</a></li>
             <li><a href="#about" class="nav-link" onClick={() => setMobileMenuOpen(false)}>About</a></li>

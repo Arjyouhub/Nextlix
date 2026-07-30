@@ -211,7 +211,6 @@ const Estimator = ({ onApplyEstimate }) => {
             <h3 class="estimator-subtitle spacing-top">2. Choose Key Features</h3>
             <div class="features-checklist">
               {[
-                { id: 'seo', label: 'Google #1 Rank & Schema Optimization', icon: 'fa-brands fa-google' },
                 { id: 'auth', label: 'Secure User Auth', icon: 'fa-shield-halved' },
                 { id: 'db', label: 'Database Integration', icon: 'fa-database' },
                 { id: 'payments', label: 'Stripe & Online Payments', icon: 'fa-credit-card' },
