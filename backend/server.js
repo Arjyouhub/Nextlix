@@ -96,6 +96,7 @@ const VisitorLogSchema = new mongoose.Schema({
   ip: String,
   path: String,
   userAgent: String,
+  deviceModel: String,
   date: { type: Date, default: Date.now }
 });
 const VisitorLog = mongoose.model('VisitorLog', VisitorLogSchema);
@@ -123,11 +124,40 @@ function getClientIp(req) {
   const forwarded = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.headers['cf-connecting-ip'];
   if (forwarded) {
     const rawIp = forwarded.split(',')[0].trim();
-    // Clean up IPv6 mapped IPv4 if present (e.g. ::ffff:123.45.67.89 -> 123.45.67.89)
     return rawIp.replace(/^::ffff:/, '');
   }
   const rawIp = req.ip || req.socket?.remoteAddress || '127.0.0.1';
   return rawIp.replace(/^::ffff:/, '');
+}
+
+function parseDeviceModel(userAgent) {
+  if (!userAgent) return 'Unknown Device';
+  const ua = userAgent;
+
+  if (/iPhone/i.test(ua)) {
+    const match = ua.match(/OS (\d+[\._]\d+)/);
+    const ver = match ? match[1].replace('_', '.') : '';
+    return `Apple iPhone (iOS ${ver})`.trim();
+  }
+  if (/iPad/i.test(ua)) return 'Apple iPad';
+  if (/Macintosh/i.test(ua)) return 'Apple Mac';
+
+  if (/Android/i.test(ua)) {
+    const match = ua.match(/Android\s+([\d\.]+);?\s*([^;)]+)?/i);
+    const ver = match ? match[1] : '';
+    let model = match && match[2] ? match[2].trim() : '';
+    if (model.includes('Build/')) model = model.split('Build/')[0].trim();
+    if (model && !model.toLowerCase().includes('k-touch')) {
+      return `${model} (Android ${ver})`;
+    }
+    return `Android Smartphone (v${ver})`;
+  }
+
+  if (/Windows NT 10.0/i.test(ua)) return 'Windows 10/11 PC';
+  if (/Windows NT/i.test(ua)) return 'Windows PC';
+  if (/Linux/i.test(ua)) return 'Linux PC';
+
+  return 'Mobile / Web Device';
 }
 
 // ---------------- DATABASE CONNECTION & SEED FLOW ----------------
@@ -426,6 +456,7 @@ app.post('/api/analytics/view', async (req, res) => {
   const todayStr = new Date().toISOString().split('T')[0];
   const clientIp = getClientIp(req);
   const userAgent = req.headers['user-agent'] || 'Unknown Device';
+  const deviceModel = parseDeviceModel(userAgent);
   const pagePath = req.body.path || '/';
 
   if (isMongoConnected) {
@@ -445,8 +476,8 @@ app.post('/api/analytics/view', async (req, res) => {
 
       await stats.save();
 
-      // Log visitor IP
-      await VisitorLog.create({ ip: clientIp, userAgent, path: pagePath });
+      // Log visitor IP and device phone model
+      await VisitorLog.create({ ip: clientIp, userAgent, deviceModel, path: pagePath });
 
       return res.json(stats);
     } catch (e) {
@@ -465,8 +496,8 @@ app.post('/api/analytics/view', async (req, res) => {
   }
 
   db.visitorLogs = db.visitorLogs || [];
-  db.visitorLogs.unshift({ ip: clientIp, userAgent, path: pagePath, date: new Date().toISOString() });
-  if (db.visitorLogs.length > 100) db.visitorLogs.pop(); // Keep latest 100
+  db.visitorLogs.unshift({ ip: clientIp, userAgent, deviceModel, path: pagePath, date: new Date().toISOString() });
+  if (db.visitorLogs.length > 100) db.visitorLogs.pop();
 
   writeDb(db);
   res.json(db.analytics);

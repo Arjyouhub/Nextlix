@@ -395,30 +395,45 @@ const AdminPanel = ({ onClose, onLogout }) => {
                       <thead>
                         <tr style={{ background: 'var(--border-color)', borderBottom: '1px solid var(--border-color)', textAlign: 'left' }}>
                           <th style={{ padding: '12px 16px' }}>Visitor IP Address</th>
-                          <th style={{ padding: '12px 16px' }}>Browser / Device Info</th>
+                          <th style={{ padding: '12px 16px' }}>Phone Model / Device Info</th>
                           <th style={{ padding: '12px 16px' }}>Visited Path</th>
                           <th style={{ padding: '12px 16px' }}>Date & Time</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {visitorLogs.map((log, idx) => (
-                          <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                            <td style={{ padding: '12px 16px' }}>
-                              <code style={{ background: 'rgba(0,242,254,0.12)', padding: '4px 8px', borderRadius: '4px', color: 'var(--accent-cyan)', fontWeight: 'bold' }}>
-                                {log.ip}
-                              </code>
-                            </td>
-                            <td style={{ padding: '12px 16px', fontSize: '0.78rem', color: 'var(--text-secondary)', maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                              {log.userAgent}
-                            </td>
-                            <td style={{ padding: '12px 16px' }}>
-                              <span class="badge" style={{ margin: 0, fontSize: '0.72rem' }}>{log.path || '/'}</span>
-                            </td>
-                            <td style={{ padding: '12px 16px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                              {new Date(log.date).toLocaleString()}
-                            </td>
-                          </tr>
-                        ))}
+                        {visitorLogs.map((log, idx) => {
+                          const deviceText = log.deviceModel || (
+                            /iPhone/i.test(log.userAgent) ? 'Apple iPhone' :
+                            /Android/i.test(log.userAgent) ? 'Android Mobile' :
+                            /Windows/i.test(log.userAgent) ? 'Windows PC' : 'Web / Mobile Device'
+                          );
+                          const isMobile = /iPhone|Android|Mobile/i.test(log.userAgent || '') || /iPhone|Android/i.test(deviceText);
+
+                          return (
+                            <tr key={idx} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                              <td style={{ padding: '12px 16px' }}>
+                                <code style={{ background: 'rgba(0,242,254,0.12)', padding: '4px 8px', borderRadius: '4px', color: 'var(--accent-cyan)', fontWeight: 'bold' }}>
+                                  {log.ip}
+                                </code>
+                              </td>
+                              <td style={{ padding: '12px 16px', fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  <i class={`fa-solid ${isMobile ? 'fa-mobile-screen' : 'fa-laptop'}`} style={{ color: 'var(--accent-cyan)' }}></i>
+                                  <strong>{deviceText}</strong>
+                                </div>
+                                <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '2px', maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                  {log.userAgent}
+                                </div>
+                              </td>
+                              <td style={{ padding: '12px 16px' }}>
+                                <span class="badge" style={{ margin: 0, fontSize: '0.72rem' }}>{log.path || '/'}</span>
+                              </td>
+                              <td style={{ padding: '12px 16px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                {new Date(log.date).toLocaleString()}
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
