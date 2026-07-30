@@ -22,7 +22,9 @@ function App() {
 
   // Page tracking and navigation
   useEffect(() => {
-    trackPageView().catch(e => console.warn('Analytics error:', e));
+    if (window.location.pathname !== '/admin') {
+      trackPageView().catch(e => console.warn('Analytics error:', e));
+    }
 
     const handlePopState = () => {
       setIsAdminView(window.location.pathname === '/admin');

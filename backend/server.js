@@ -13,8 +13,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
+app.set('trust proxy', true);
 app.use(cors());
 app.use(express.json());
 
@@ -119,11 +120,14 @@ const AdminSchema = new mongoose.Schema({
 const Admin = mongoose.model('Admin', AdminSchema);
 
 function getClientIp(req) {
-  const forwarded = req.headers['x-forwarded-for'];
+  const forwarded = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.headers['cf-connecting-ip'];
   if (forwarded) {
-    return forwarded.split(',')[0].trim();
+    const rawIp = forwarded.split(',')[0].trim();
+    // Clean up IPv6 mapped IPv4 if present (e.g. ::ffff:123.45.67.89 -> 123.45.67.89)
+    return rawIp.replace(/^::ffff:/, '');
   }
-  return req.socket?.remoteAddress || req.ip || '127.0.0.1';
+  const rawIp = req.ip || req.socket?.remoteAddress || '127.0.0.1';
+  return rawIp.replace(/^::ffff:/, '');
 }
 
 // ---------------- DATABASE CONNECTION & SEED FLOW ----------------
